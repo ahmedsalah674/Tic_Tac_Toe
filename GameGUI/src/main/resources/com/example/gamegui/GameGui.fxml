@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<?import java.net.URL?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gamegui.GameController">
+    <children>
+        <Label fx:id="title" layoutX="213.0" layoutY="25.0" text="Tic Tac Toe" textFill="#a41f1f">
+            <font>
+                <Font name="Lucida Handwriting Italic" size="28.0" />
+            </font>
+        </Label>
+        <Button fx:id="button5" layoutX="265.0" layoutY="165.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button2" layoutX="265.0" layoutY="95.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button8" layoutX="265.0" layoutY="235.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button3" layoutX="335.0" layoutY="95.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button6" layoutX="335.0" layoutY="165.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button9" layoutX="335.0" layoutY="235.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button1" layoutX="195.0" layoutY="95.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button4" layoutX="195.0" layoutY="165.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Button fx:id="button7" layoutX="195.0" layoutY="235.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="70.0" textFill="#8B0000">
+            <font>
+                <Font name="System Bold" size="30.0" />
+            </font>
+        </Button>
+        <Label fx:id="txt" alignment="CENTER" layoutX="190.0" layoutY="67.0" prefHeight="30.0" prefWidth="223.0" textFill="#8B0000">
+            <font>
+                <Font size="13.0" />
+            </font>
+        </Label>
+        <Button fx:id="resetbtn" layoutX="244.0" layoutY="342.0" mnemonicParsing="false" onAction="#reset" prefHeight="32.0" prefWidth="115.0" style="-fx-background-color: #a41f1f;" text="Reset" textFill="WHITE">
+            <font>
+                <Font name="Lucida Calligraphy Italic" size="14.0" />
+            </font></Button>
+        <ImageView fitHeight="115.0" fitWidth="115.0" layoutX="23.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@O.png" />
+            </image>
+        </ImageView>
+        <ImageView fitHeight="122.0" fitWidth="115.0" layoutX="462.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@X.png" />
+            </image>
+        </ImageView>
+        <!--        <ImageView fitHeight="122.0" fitWidth="115.0" layoutX="23.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">-->
+        <!--            <image>-->
+        <!--                <Image url="@X.png" />-->
+        <!--            </image>-->
+        <!--        </ImageView>-->
+<!--        <ImageView fitHeight="122.0" fitWidth="150.0" layoutX="462.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">-->
+<!--            <image>-->
+<!--                <Image url="@X.png" />-->
+<!--            </image>-->
+<!--        </ImageView>-->
+        <ImageView fitHeight="50.0" onMouseClicked="#back" fitWidth="50.0" layoutX="14.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@back.png" />
+            </image>
+        </ImageView>
+    </children>
+    <stylesheets>
+        <URL value="@2.css" />
+    </stylesheets>
+</AnchorPane>

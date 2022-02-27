@@ -1,0 +1,9 @@
+.table-column {
+  -fx-alignment: CENTER;
+  -fx-border-color: black;
+   -fx-text-background-color: black;
+}
+.table-view .column-header {
+     -fx-background-color: green;
+     -fx-text-background-color: white;
+}

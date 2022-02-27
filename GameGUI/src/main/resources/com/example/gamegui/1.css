@@ -1,0 +1,15 @@
+.table-column {
+  -fx-alignment: CENTER;
+  -fx-border-color: black;
+   -fx-text-background-color: black;
+}
+.table-view .column-header {
+     -fx-background-color: #8B0000;
+     -fx-text-background-color: white;
+}
+table-row-cell: hover {
+   -fx-text-background-color: gold;
+   -fx-text-fill: gold;
+   -fx-background-color: gold;
+
+}
