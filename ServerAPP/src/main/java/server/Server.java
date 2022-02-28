@@ -2,6 +2,7 @@ package server;
 
 import client.Client;
 import client.User;
+import com.example.serverapp.Main;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,11 +10,13 @@ import java.util.Vector;
 
 public class Server extends Thread {
     public static ServerSocket serverSocket;
+//    public static boolean running;
     public static Vector<Client> clientVector = new Vector<>();
     public Server() {
         try {
             serverSocket = new ServerSocket(5005);
             start();
+            Main.running=true;
         } catch (Exception e) {
             System.out.println("inside private Server constructor" + e);
         }

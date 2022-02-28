@@ -118,7 +118,7 @@ public class Player {
         return !isPlayer() && Db.signUp(userName,hashPassword(password));
     }
     public boolean isLogin(){
-        return status == 1;
+        return status > 0;
     }
     public boolean login()
     {

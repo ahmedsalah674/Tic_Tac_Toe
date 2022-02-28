@@ -54,7 +54,7 @@ public class Player {
     public void setScore(String score) {
         this.score = score;
     }
-    Player(String n, String st, String sc) {
+    public Player(String n, String st, String sc) {
         this.userName = n;
         setStatus(st);
         this.score = sc;
@@ -65,20 +65,20 @@ public class Player {
             @Override
             public void handle(ActionEvent actionEvent) {
                 if (Main.otherPlayerUserName != null) {
-                    Main.sendMessage("inviteResponse:false");
+                    Main.sendMessage("inviteResponse:false","Client");
                 }
-                Main.sendMessage("inviteRequest:" + invitePlayer.getId());
+                Main.sendMessage("inviteRequest:" + invitePlayer.getId(),"Client");
                 Main.otherPlayerUserName = invitePlayer.getId();
             }
         });
     }
 
     public void logout() {
-        Main.sendMessage("logoutRequest");
+        Main.sendMessage("logoutRequest","Client");
     }
 
     public void login() {
-        Main.sendMessage("loginRequest:" + userName + ":" + password);
+        Main.sendMessage("loginRequest:" + userName + ":" + password,"Client");
     }
 //    public static void setTimeout(Runnable runnable, int delay){
 //        new Thread(() -> {

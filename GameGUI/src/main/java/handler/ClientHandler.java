@@ -1,5 +1,9 @@
-package com.example.gamegui;
+package handler;
 
+import com.example.gamegui.ChooseGameController;
+import com.example.gamegui.Main;
+import com.example.gamegui.OnlineGameController;
+import com.example.gamegui.Player;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -8,9 +12,9 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class ClientHandler {
-    public static void handleRequest(String response) {
-        System.out.println(" handleRequest() response-> " + response);
-        String[] responseParts = response.split(":");
+    public static void handleRequest(String[] responseParts) {
+        System.out.println(" handleRequest() response-> " + responseParts[0]);
+//        String[] responseParts = response.split(":");
         switch (responseParts[0]) {
             case "loginResponse" -> handleLogin(responseParts);
             case "signUpResponse" -> handleSignUp(responseParts);
@@ -22,7 +26,7 @@ public class ClientHandler {
             case "playAgainResponse" -> handlePlayAgain(responseParts);
             case "removeOtherPlayerResponse" -> handleRemoveOtherPlayer(responseParts);
 //            case "logoutResponse" -> handleLogout(responseParts);
-            default -> System.out.println("Unexpected value for request: " + response);
+            default -> System.out.println("Unexpected value for request: " + String.join(":",responseParts));
         }
     }
 
@@ -32,6 +36,7 @@ public class ClientHandler {
             Main.playerUserName = responseParts[2];
             Main.changeSceneName("ChooseGameGui.fxml");
             System.out.println("logged in ");
+            Platform.runLater(() -> {Main.s.setTitle(responseParts[2]);});
         }
     }
 
@@ -104,12 +109,12 @@ public class ClientHandler {
                 ButtonType button = result.orElse(ButtonType.CANCEL);
                 if (button == ButtonType.OK) {
                     Main.otherPlayerUserName = responseParts[1];
-                    Main.sendMessage("inviteResponse:" + responseParts[1] + ":true");
+                    Main.sendMessage("inviteResponse:" + responseParts[1] + ":true","Client");
                     Main.changeSceneName("OnlineGameGui.fxml");
                     new OnlineGameController('X', false);
                 } else {
                     Main.otherPlayerUserName = null;
-                    Main.sendMessage("inviteResponse:" + responseParts[1] + ":false");
+                    Main.sendMessage("inviteResponse:" + responseParts[1] + ":false","Client");
                 }
             });
         }
@@ -130,7 +135,7 @@ public class ClientHandler {
                 }
                 runnable.run();
             } catch (Exception e) {
-                System.err.println(e);
+                System.err.println("ClientHandler-setTimeout ()"+e);
             }
         }).start();
     }

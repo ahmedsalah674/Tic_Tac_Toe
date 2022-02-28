@@ -24,13 +24,16 @@ public class LoginController implements Initializable {
         user_pass.setText("12345");
     }
     public  void login() throws IOException {
-        Main.sendMessage("loginRequest:"+user_name.getText()+":"+user_pass.getText());
+        Main.sendMessage("loginRequest:"+user_name.getText()+":"+user_pass.getText(),"Client");
         System.out.println("login in loginController");
     }
     public  void signup() throws IOException {
         System.out.println("signup in loginController");
-        Main.sendMessage("signUpRequest:"+user_name.getText()+":"+user_pass.getText());
+        Main.sendMessage("signUpRequest:"+user_name.getText()+":"+user_pass.getText(),"Client");
+//        if(Main.playerUserName!=null)
+//            Main.s.setTitle(Main.playerUserName);
     }
+
 
 
 

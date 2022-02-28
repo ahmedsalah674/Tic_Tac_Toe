@@ -1,5 +1,7 @@
 package client;
+import com.example.serverapp.Main;
 import handler.ClientHandler;
+import handler.RequestHandler;
 import server.Server;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -25,11 +27,15 @@ public class Client extends Thread {
         }
     }
     // write function on clint side
-    public void sendResponseMessage(String responseMessage) {
-        if(printStream!=null)
-            printStream.println(responseMessage);
+    public boolean sendResponseMessage(String responseMessage,String responseType){
+        if(this.printStream!=null) {
+//            System.out.println(responseMessage+"++++++"+    this.getId()+"------"+this.clientUser.playerDate.getUserName());
+            this.printStream.println(responseType + ":" + responseMessage);
+            return true;
+        }
         else
             System.out.println("inside sendResponseMessage() printStream is null");
+        return false;
     }
     public void run() {
         while (true) {
@@ -37,7 +43,8 @@ public class Client extends Thread {
                 System.out.println("i'm here in com.example.serverapp.client run()");
                 String request = dataInputStream.readLine();
                 if (request != null)
-                    ClientHandler.handleRequest(request, this);
+                        RequestHandler.handleRequest(request, this);
+
             } catch (IOException ex) {
                 this.stop();
                 try {

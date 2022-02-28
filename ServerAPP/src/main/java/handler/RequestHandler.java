@@ -1,6 +1,7 @@
 package handler;
 
 import client.Client;
+import com.example.serverapp.Main;
 
 import java.util.Arrays;
 
@@ -9,10 +10,18 @@ public class RequestHandler {
 //        request="Client:getPlayersRequest:ahmed"
         String[] requestParts = request.split(":");
         String[] requestHandle = Arrays.copyOfRange(requestParts, 1, requestParts.length);
-        switch (requestParts[0]) {
-//            case "Game" -> GameHandler.handleRequest(requestHandle,clientInstance);
-//            case "Client" -> ClientHandler.handleRequest(requestHandle,clientInstance);
-            default -> System.out.println("Unexpected value in RequestHandler-handleRequest(): " + requestParts[0]);
+        if(Main.running || requestParts[0].equals("Server") ) {
+            switch (requestParts[0]) {
+                case "Server"->ServerHandler.handleRequest(requestHandle, clientInstance);
+                case "Client"->ClientHandler.handleRequest(requestHandle, clientInstance);
+//              case "Game" -> GameHandler.handleRequest(requestHandle,clientInstance);
+                default -> System.out.println("Unexpected value in RequestHandler-handleRequest(): " + requestParts[0]);
+            }
         }
+        else
+            RequestHandler.handleRequest("Server:locked",clientInstance);
+
+
     }
+
 }

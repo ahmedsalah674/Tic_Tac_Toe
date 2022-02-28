@@ -46,7 +46,7 @@ public class GameController implements Initializable {
         resetbtn.setCursor(Cursor.HAND);
     }
     @FXML
-    void reset(ActionEvent event) {
+    void reset() {
         movesLeft = 9;
         gameOver = false;
         for (int[] row: board)

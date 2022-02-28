@@ -1,5 +1,5 @@
 package com.example.gamegui;
-
+import handler.ResponseHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -19,12 +19,12 @@ public class Main extends Application {
     public static mainThread MainThread;
     public static String playerUserName;
     public static String otherPlayerUserName;
-
     public static void changeSceneName(String sceneName) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try {
+                    System.err.println(sceneName);
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)));
                     Main.s.setScene(scene);
                 } catch (IOException e) {
@@ -33,23 +33,32 @@ public class Main extends Application {
             }
         });
     }
-
-    public static void sendMessage(String message) {
-        if (clientPrintStream != null)
-            clientPrintStream.println(message);
+    public static boolean sendMessage(String message,String responseType) {
+        if (clientPrintStream != null) {
+//            System.err.println("--------"+clientSocket.);
+            clientPrintStream.println(responseType + ":" + message);
+            return true;
+        }
         else
-            System.out.println("inside sendMessage function clientPrintStream is null");
+            System.out.println("inside Main-sendMessage() clientPrintStream is null");
+        return false;
     }
 
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("LoginGui.fxml"));
+            Parent root;
+            if(connectToServer())
+                root = FXMLLoader.load(getClass().getResource("LoginGui.fxml"));
+            else
+                root = FXMLLoader.load(getClass().getResource("failed.fxml"));
             Scene scene = new Scene(root);
             s = primaryStage;
-            s.setTitle("TicTacToe");
             s.setScene(scene);
+            s.setResizable(false);
+            s.setTitle("TicTacToe");
             s.show();
+
         } catch (IOException e) {
             System.out.println("fxml not found");
         }
@@ -61,12 +70,12 @@ public class Main extends Application {
         if(playerUserName!=null) {
             if(otherPlayerUserName!=null&&!OnlineGameController.isGameOver()) {
                 System.out.println("in Stop() in main and user is " + playerUserName);
-                Main.sendMessage("removeOtherPlayerRequest:"+otherPlayerUserName);
-                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15);
+                Main.sendMessage("removeOtherPlayerRequest:"+otherPlayerUserName,"Client");
+                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15,"Client");
             }
-            sendMessage("logoutRequest");
+            sendMessage("logoutRequest","Client");
         }
-        sendMessage("closeMERequest:"+playerUserName);
+        sendMessage("closeMERequest:"+playerUserName,"Server");
         try{
             if(clientSocket!=null) {
                 clientSocket.close();
@@ -77,7 +86,7 @@ public class Main extends Application {
         }
     }
 
-    static class mainThread extends Thread {
+    public static class mainThread extends Thread {
         public void run() {
             try {
                 while (true) {
@@ -85,7 +94,8 @@ public class Main extends Application {
                     String line = clientDataInputStream.readLine();
                     if (line != null) {
                         System.out.println("line is -> " + line);
-                        ClientHandler.handleRequest(line);
+                        ResponseHandler.handleResponse(line);
+                        //                        ClientHandler.handleRequest(line);
                     }
                 }
             } catch (IOException ex) {
@@ -94,20 +104,24 @@ public class Main extends Application {
         }
     }
 
+
     public static void main(String[] args) {
+//        connectToServer();
+        launch(args);
+    }
+    public static boolean connectToServer(){
         try {
             clientSocket = new Socket("127.0.0.1", 5005);
             clientDataInputStream = new DataInputStream(clientSocket.getInputStream());
             clientPrintStream = new PrintStream(clientSocket.getOutputStream());
             MainThread = new mainThread();
             MainThread.start();
+            sendMessage("checkConnection", "Server");
+            return true;
         } catch (IOException e) {
             System.out.println("clientSocket");
             System.out.println("server is off");
-//            Main.changeSceneName("failed.fxml");
+            return false;
         }
-
-        launch(args);
-
     }
 }

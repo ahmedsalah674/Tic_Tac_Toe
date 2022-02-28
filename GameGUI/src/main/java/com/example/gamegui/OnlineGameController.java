@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +27,7 @@ public class OnlineGameController implements Initializable {
     @FXML private Label txt;
     private static char[][] board = new char[3][3];
     static ArrayList<Button> buttons;
+//    static ArrayList<Text> userNames;
     private static boolean myTurn;
 
     public static void setMyTurn(boolean myTurn) {
@@ -53,8 +57,8 @@ public class OnlineGameController implements Initializable {
     public void back(){
         if(Main.otherPlayerUserName!=null&&!OnlineGameController.isGameOver()) {
             System.out.println("in back() in main and user is " + Main.playerUserName);
-            Main.sendMessage("removeOtherPlayerRequest:"+Main.otherPlayerUserName);
-            Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15);
+            Main.sendMessage("removeOtherPlayerRequest:"+Main.otherPlayerUserName,"Client");
+            Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15,"Client");
             Main.changeSceneName("ChooseGameGui.fxml");
             Main.otherPlayerUserName=null;
         }
@@ -75,7 +79,7 @@ public class OnlineGameController implements Initializable {
     }
     public void playAgain(){
         if(gameOver){
-            Main.sendMessage("playAgainRequest:" + Main.otherPlayerUserName);
+            Main.sendMessage("playAgainRequest:" + Main.otherPlayerUserName,"Client");
             Main.changeSceneName("OnlineGameGui.fxml");
             resetBord();
             myTurn = true;
@@ -90,7 +94,7 @@ public class OnlineGameController implements Initializable {
                 gameLogicFire(playedButton, playerShape);
                 String[] move = playedButton.getId().split("_");
                 Main.sendMessage("gamePlayRequest:" + Main.playerUserName + ":" + Main.otherPlayerUserName +
-                        ":" + playerShape + ":" + move[1] + "_" + move[2]);
+                        ":" + playerShape + ":" + move[1] + "_" + move[2],"Client");
                 myTurn = false;
             }
         });
@@ -150,7 +154,7 @@ public class OnlineGameController implements Initializable {
                 txt.setText("X won!");
 //                });
                 gameOver = true;
-                if (playerShape=='X') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10);
+                if (playerShape=='X') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
             }
             //O winner
             else if (line.equals("OOO")) {
@@ -161,7 +165,7 @@ public class OnlineGameController implements Initializable {
                 txt.setText("O won!");
 //                });
                 gameOver = true;
-                if (playerShape=='O') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10);
+                if (playerShape=='O') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
             }
             //Tie
             if (tilesLeft == 0) {

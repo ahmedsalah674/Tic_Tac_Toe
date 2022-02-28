@@ -16,9 +16,9 @@
 <!--            <font>-->
 <!--                <Font name="Lucida Calligraphy Italic" size="12.0" />-->
 <!--            </font></Button>-->
-        <Button fx:id="b2" layoutX="61.0" layoutY="265.0" mnemonicParsing="false" onAction="#playOffline" prefHeight="25.0" prefWidth="154.0" style="-fx-background-color: #a41f1f;" text="Offline" textFill="WHITE">
+        <Button fx:id="playOffline" layoutX="61.0" layoutY="235.0" mnemonicParsing="false" onAction="#playOffline" prefHeight="50.0" prefWidth="154.0" style="-fx-background-color: #a41f1f;" text="Offline" textFill="WHITE">
             <font>
-                <Font name="Lucida Calligraphy Italic" size="12.0" />
+                <Font name="Lucid Calligraphy Italic" size="17.0" />
             </font></Button>
         <TableView fx:id="myTable" layoutX="270.0" prefHeight="400.0" prefWidth="350.0">
             <columns>
@@ -28,7 +28,7 @@
                 <TableColumn fx:id="invite" prefWidth="79.0" text="Invite" />
             </columns>
         </TableView>
-        <Text fill="#a41f1f" layoutX="44.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Mode">
+        <Text fill="#a41f1f" layoutX="44.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game Mode">
             <font>
                 <Font name="Lucid Calligraphy Italic" size="30.0" />
             </font>

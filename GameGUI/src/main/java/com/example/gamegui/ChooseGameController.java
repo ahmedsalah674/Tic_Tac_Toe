@@ -4,6 +4,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,11 +22,11 @@ public class ChooseGameController implements Initializable {
     @FXML private TableColumn<Player, String> score;
     @FXML private TableColumn<Player, String> status;
     @FXML private TableColumn<Player, String> invite;
-//    @FXML private Button b1;
+    @FXML private Button playOffline;
 
     static ObservableList<Player> List = FXCollections.observableArrayList();
     public ChooseGameController() {
-        Main.sendMessage("getPlayersRequest");
+        Main.sendMessage("getPlayersRequest","Client");
     }
     public ChooseGameController(ArrayList<Player> players) {
         List.clear();
@@ -36,8 +38,8 @@ public class ChooseGameController implements Initializable {
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         invite.setCellValueFactory(new PropertyValueFactory<>("invitePlayer"));
-        Main.sendMessage("getPlayersRequest");
-        myTable.setItems(List);
+        Main.sendMessage("getPlayersRequest","Client");
+        playOffline.setCursor(Cursor.HAND);
     }
     public void playOffline() throws IOException {
         System.out.println("play offline");

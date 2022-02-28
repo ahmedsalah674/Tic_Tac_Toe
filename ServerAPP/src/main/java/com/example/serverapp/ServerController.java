@@ -1,13 +1,20 @@
 package com.example.serverapp;
+import client.Client;
 import client.Player;
+import client.User;
+import handler.RequestHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import server.Server;
+
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -62,22 +69,31 @@ public class ServerController  implements Initializable {
     @FXML private TableColumn<PlayerGui, Integer> score;
     @FXML private TableColumn<PlayerGui, String> status;
     @FXML private Button StartServerBtn;
-    static ObservableList<PlayerGui> List = FXCollections.observableArrayList();
-    boolean serverStatus;
+    public static ObservableList<PlayerGui> List = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        serverStatus=false;
+        System.out.println("initialize----------------"+Main.running);
         StartServerBtn.setStyle("-fx-background-color: red; -fx-text-fill: white");
         name.setCellValueFactory(new PropertyValueFactory<>("userName"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
+        StartServerBtn.setDefaultButton(true);
+        StartServerBtn.setCursor(Cursor.HAND);
+        if(Main.running){
+            Player serverPlayer = new Player();
+            ArrayList<PlayerGui> players= PlayerGui.convertPlayers(serverPlayer.getPlayers());
+            if(players!=null) {
+                List.clear();
+                List.addAll(players);
+                myTable.setItems(List);
+            }
+            StartServerBtn.setText("Running");
+            StartServerBtn.setStyle("-fx-background-color: green; -fx-text-fill: white");
+        }
     }
-//    public void updateList(){
-//
-//    }
     public void controlServer()
     {
-        if(!serverStatus) {
+        if(!Main.running) {
             Player serverPlayer = new Player();
             ArrayList<PlayerGui> players= PlayerGui.convertPlayers(serverPlayer.getPlayers());
                 if(players!=null) {
@@ -86,7 +102,8 @@ public class ServerController  implements Initializable {
                 }
             StartServerBtn.setText("Running");
             StartServerBtn.setStyle("-fx-background-color: green; -fx-text-fill: white");
-            serverStatus=true;
+            Main.running=true;
+            RequestHandler.handleRequest("Server:unlockedAll", new Client(new User(new Socket())));
         }
         else{
             {
@@ -94,7 +111,8 @@ public class ServerController  implements Initializable {
                 myTable.setItems(List);
                 StartServerBtn.setText("Start Server");
                 StartServerBtn.setStyle("-fx-background-color: red; -fx-text-fill: white");
-                serverStatus=false;
+                Main.running=false;
+                RequestHandler.handleRequest("Server:lockedAll", new Client(new User(new Socket())));
             }
         }
     }
