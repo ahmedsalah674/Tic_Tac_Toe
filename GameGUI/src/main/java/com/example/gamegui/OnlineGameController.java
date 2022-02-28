@@ -3,10 +3,7 @@ package com.example.gamegui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,14 +26,15 @@ public class OnlineGameController implements Initializable {
     static ArrayList<Button> buttons;
 //    static ArrayList<Text> userNames;
     private static boolean myTurn;
-
+    private static char winner;
     public static void setMyTurn(boolean myTurn) {
         OnlineGameController.myTurn = myTurn;
     }
     private static boolean gameOver;
     private static char playerShape;
-    private int tilesLeft = 9;
-
+    private static int tilesLeft = 9;
+    public static String title;
+    public static String message;
     public static boolean isGameOver() {
         return gameOver;
     }
@@ -46,7 +44,8 @@ public class OnlineGameController implements Initializable {
         myTurn = Turn;
         setPlayerShape(playerShape);
     }
-    public OnlineGameController(String movePositions, char moveShape) {
+    public static void setMove(String movePositions, char moveShape)
+    {
         gameLogicFire(getButton("button_" + movePositions), moveShape);
         myTurn = true;
     }
@@ -76,6 +75,7 @@ public class OnlineGameController implements Initializable {
     }
     public static void resetBord(){
         board=new char[3][3];
+        tilesLeft=9;
     }
     public void playAgain(){
         if(gameOver){
@@ -100,7 +100,7 @@ public class OnlineGameController implements Initializable {
         });
     }
 
-    public void gameLogicFire(Button playedButton, char gameShape) {
+    public static void gameLogicFire(Button playedButton, char gameShape) {
         tilesLeft--;
         Platform.runLater(() -> {
             playedButton.setText(String.valueOf(gameShape));
@@ -110,19 +110,21 @@ public class OnlineGameController implements Initializable {
         checkIfGameIsOver();
         DisabledAll();
     }
-    public void DisabledAll(){
-        if (gameOver)
-            for (Button b:buttons)
+    public static void DisabledAll(){
+        if (gameOver) {
+            for (Button b : buttons)
                 b.setDisable(true);
+            setMessageValueAndShow();
+        }
     }
-    public Button getButton(String buttonID) {
+    public static Button getButton(String buttonID) {
         for (Button cuButton : buttons)
             if (cuButton.getId().equals(buttonID))
                 return cuButton;
         return null;
     }
 
-    private void updateBoard(Button playedButton, char gameShape) {
+    private static void updateBoard(Button playedButton, char gameShape) {
         String[] move = playedButton.getId().split("_");
         board[Integer.parseInt(move[1])][Integer.parseInt(move[2])] = gameShape;
     }
@@ -130,7 +132,7 @@ public class OnlineGameController implements Initializable {
         //save game implementation
     }
 
-    public void checkIfGameIsOver() {
+    public static void checkIfGameIsOver() {
         for (int a = 0; a < 8; a++) {
             String line = switch (a) {
                 case 0 -> String.valueOf(board[0][0]) + board[0][1] + board[0][2];
@@ -147,33 +149,50 @@ public class OnlineGameController implements Initializable {
             };
             //X winner
             if (line.equals("XXX")) {
-//                Platform.runLater(() -> {
-                if(txt==null) {
-                    txt = new Label();
-                }
-                txt.setText("X won!");
-//                });
+                winner='X';
                 gameOver = true;
                 if (playerShape=='X') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
             }
             //O winner
             else if (line.equals("OOO")) {
-//                Platform.runLater(() -> {
-                if(txt==null) {
-                    txt = new Label();
-                }
-                txt.setText("O won!");
-//                });
+                winner='O';
                 gameOver = true;
                 if (playerShape=='O') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
             }
             //Tie
-            if (tilesLeft == 0) {
-//                Platform.runLater(() -> {
-//                    txt.setText("Oh NO!! .... Its A Tie!");
-//                });
+            if (tilesLeft <=0) {
+                winner='T';
                 gameOver = true;
             }
         }
     }
+    private static void showAlert(String title, String message){
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText(message);
+            alert.setResizable(false);
+            alert.showAndWait();
+        });
+    }
+    public static void setMessageValue(){
+        if(gameOver==true){
+            if(playerShape==winner) {
+                title = "We have a Winner here:\" ";
+                message = "Wonderful "+Main.playerUserName+" You Win this game GG :) ";
+            }else if(winner=='T'){
+                title = "Tie :| ";
+                message="Oh no!! .... its a Tie!!";
+            }
+            else {
+                title = "We have a loser here:\" ";
+                message="Sorry "+ Main.playerUserName +" but you lost this game:\" ";
+            }
+        }
+    }
+    public static void setMessageValueAndShow(){
+        setMessageValue();
+        showAlert(title, message);
+    }
+
 }

@@ -27,8 +27,8 @@ public class Main extends Application {
                     System.err.println(sceneName);
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)));
                     Main.s.setScene(scene);
-                } catch (IOException e) {
-                    System.out.println("this scene not found");
+                } catch (IOException e){
+                    e.printStackTrace();
                 }
             }
         });

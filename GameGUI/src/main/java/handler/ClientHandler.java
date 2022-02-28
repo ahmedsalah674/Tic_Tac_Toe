@@ -122,7 +122,7 @@ public class ClientHandler {
 
     public static void handleGamePlay(String[] responseParts) {
 //        "gamePlayResponse:X:+0_1
-        new OnlineGameController(responseParts[2], responseParts[1].charAt(0));
+        OnlineGameController.setMove(responseParts[2], responseParts[1].charAt(0));
     }
     public static void setTimeout(Runnable runnable, int delay, Alert alert) {
         new Thread(() -> {
@@ -145,6 +145,8 @@ public class ClientHandler {
         OnlineGameController.changeGameOver(false);
         OnlineGameController.setMyTurn(false);
         OnlineGameController.resetBord();
+        OnlineGameController.resetBord();
+
     }
 
     private static void handleRemoveOtherPlayer(String[] responseParts) {

@@ -38,8 +38,9 @@ public class ChooseGameController implements Initializable {
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
         score.setCellValueFactory(new PropertyValueFactory<>("score"));
         invite.setCellValueFactory(new PropertyValueFactory<>("invitePlayer"));
-        Main.sendMessage("getPlayersRequest","Client");
         playOffline.setCursor(Cursor.HAND);
+        Main.sendMessage("getPlayersRequest","Client");
+        myTable.setItems(List);
     }
     public void playOffline() throws IOException {
         System.out.println("play offline");

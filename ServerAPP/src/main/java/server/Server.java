@@ -3,6 +3,7 @@ package server;
 import client.Client;
 import client.User;
 import com.example.serverapp.Main;
+import handler.RequestHandler;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -41,6 +42,11 @@ public class Server extends Thread {
             }
         } catch (Exception e) {
             System.out.println("inside run() Server function" + e);
+        }
+    }
+    public static void sendMessageForAll(String message,String messageType){
+        for (Client clientCounter:clientVector) {
+                RequestHandler.handleRequest(messageType+":"+message,clientCounter);
         }
     }
 }

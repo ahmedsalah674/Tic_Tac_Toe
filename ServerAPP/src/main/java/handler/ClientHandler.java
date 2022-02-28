@@ -109,9 +109,14 @@ public class ClientHandler {
     }
 
     private static void handleInvite(String[] requestParts, Client copyClient) {
+        if(copyClient.clientUser!=null&&copyClient.clientUser.playerDate!=null);
+            copyClient.clientUser.playerDate.setInGame();
         Client result = Server.getUserByUserName(requestParts[1]);
         if (result != null)
+            result.clientUser.playerDate.setInGame();
             result.sendResponseMessage("inviteMessageRequest:" + copyClient.clientUser.playerDate.getUserName(),"Client");
+        Main.changeSceneName("ServerGui.fxml");
+        Server.sendMessageForAll("getPlayersRequest", "Client");
         System.out.println("handleInvite handler function: " + requestParts[0]);
     }
 
@@ -131,6 +136,7 @@ public class ClientHandler {
                 ClientHandler.handleRequest(new String[]{"getPlayersRequest"}, counter);
             }
         }
+        Main.changeSceneName("ServerGui.fxml");
     }
 
     private static void handleCloseMERequest(String[] requestParts) {
@@ -142,7 +148,6 @@ public class ClientHandler {
                 result.ClientSocket.close();
                 result.stop();
                 Server.clientVector.remove(result);
-                Main.changeSceneName("ServerGui.fxml");
             } catch (IOException e) {
                 System.out.println("can't close this com.example.serverapp.client");
             }
