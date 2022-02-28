@@ -1,4 +1,7 @@
-package client;
+package handler;
+import client.Client;
+import client.Player;
+import client.User;
 import server.Server;
 import java.io.IOException;
 import java.util.ArrayList;

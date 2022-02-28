@@ -8,4 +8,6 @@ module com.example.serverapp {
     exports com.example.serverapp;
     exports client;
     opens client to javafx.fxml;
+    exports handler;
+    opens handler to javafx.fxml;
 }

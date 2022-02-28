@@ -266,4 +266,45 @@ public class PlayerDatabase extends Database{
         return false;
     }
 
+
+    public boolean inGame(String userName){
+        try {
+            PreparedStatement ps = con.prepareStatement("select status from players where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            ps.setString(1, userName);
+            ResultSet userData = ps.executeQuery();
+            userData.first();
+            if (userData.getInt(1)==2)
+                return true;
+        } catch (SQLException e) {
+            System.out.println("inside the signUp function " + e);
+        }
+        return false;
+    }
+    public boolean leaveGame(String userName){
+        try {
+            PreparedStatement ps = con.prepareStatement("update players set status = 1 where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, userName);
+            int userData = ps.executeUpdate();
+            if (userData>0)
+                return true;
+        } catch (SQLException e) {
+            System.out.println("inside the signUp function " + e);
+        }
+        return false;
+    }
+
+    public boolean setInGame(String userName){
+        try {
+            PreparedStatement ps = con.prepareStatement("update players set status =2 where userName=? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            ps.setString(1, userName);
+            int userData = ps.executeUpdate();
+            if (userData>0)
+                return true;
+        } catch (SQLException e) {
+            System.out.println("inside the signUp function " + e);
+        }
+        return false;
+    }
+
+
 }

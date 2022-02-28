@@ -151,25 +151,46 @@ public class ClientHandler {
             alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
             alert.setResizable(false);
             alert.showAndWait();
-//            Optional<ButtonType> result =
-//            ButtonType button = result.orElse(ButtonType.CANCEL);
-//            if (button == ButtonType.OK) {
-//                Main.otherPlayerUserName = responseParts[1];
-//                Main.sendMessage("inviteResponse:" + responseParts[1] + ":true");
-//                Main.changeSceneName("OnlineGameGui.fxml");
-//                new OnlineGameController('X', false);
-//            } else {
-//                Main.otherPlayerUserName = null;
-//                Main.sendMessage("inviteResponse:" + responseParts[1] + ":false");
-//            }
-        });
+        });//replace it with show alert
+        removeOtherPlayer();
+    }
+    private static void removeOtherPlayer(){
         Main.changeSceneName("ChooseGameGui.fxml");
         Main.otherPlayerUserName=null;
     }
-//
-//    private static void handleGameSave(String[] requestParts) {
-//        System.out.println("handleGameSave handler function: " + requestParts[0]);
-//    }
+
+    private static void handleShowAlert(String[] responseParts) {
+//        "showAlertResponse:saveGame"
+        System.out.println("handleShowAlert handler function: " + responseParts[1]);
+        Platform.runLater(() -> {
+            System.out.println("in handleShowAlert() and runLater() and user is " + Main.playerUserName);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            getAlertMessage(responseParts[1],alert);
+            alert.setResizable(false);
+            alert.showAndWait();
+        });
+    }
+    private static void getAlertMessage(String responseParts,Alert alert){
+        switch (responseParts){
+            case "saveGame":
+                alert.setTitle("Save Game!!");
+                alert.setHeaderText("sorry but your opponent want to save this Game and continue in anther time");
+                break;
+            case "surrendered":
+                alert.setTitle("opponent surrendered!!");
+                alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
 //    private static void handleLogout(String[] requestParts) {
 //        System.out.println("handleGameSave handler function: " + requestParts[0]);
 ////        usedClientForHandler.sendResponseMessage("logoutResponse:"+usedClientForHandler.clientUser.playerDate.logout());

@@ -208,4 +208,8 @@ public class Player {
     public boolean addScore(int points){
         return isPlayer()&&isLogin()&& Db.updateScore(points, userName);
     }
+
+    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
+    public boolean outGame(){return isLogin()&&Db.leaveGame(userName);}
+    public boolean setInGame() {return isLogin()&&Db.setInGame(userName);}
 }

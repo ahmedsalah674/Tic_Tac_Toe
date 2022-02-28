@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<?import java.net.URL?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.gamegui.GameController">
+<AnchorPane fx:controller="com.example.gamegui.GameController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" >
     <children>
         <Label fx:id="title" layoutX="213.0" layoutY="25.0" text="Tic Tac Toe" textFill="#a41f1f">
             <font>
@@ -65,37 +64,27 @@
                 <Font size="13.0" />
             </font>
         </Label>
-        <Button fx:id="resetbtn" layoutX="244.0" layoutY="342.0" mnemonicParsing="false" onAction="#reset" prefHeight="32.0" prefWidth="115.0" style="-fx-background-color: #a41f1f;" text="Reset" textFill="WHITE">
+
+        <Button fx:id="resetbtn" onAction="#reset" layoutX="244.0" layoutY="342.0" mnemonicParsing="false"  prefHeight="32.0" prefWidth="115.0" style="-fx-background-color: #a41f1f;" text="Reset" textFill="WHITE">
             <font>
                 <Font name="Lucida Calligraphy Italic" size="14.0" />
             </font></Button>
         <ImageView fitHeight="115.0" fitWidth="115.0" layoutX="23.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@O.png" />
+                <Image url="@player.png" />
             </image>
         </ImageView>
-        <ImageView fitHeight="122.0" fitWidth="115.0" layoutX="462.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fitHeight="100.0" fitWidth="115.0"  layoutX="462.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@X.png" />
+                <Image url="@ai.png" />
             </image>
         </ImageView>
-        <!--        <ImageView fitHeight="122.0" fitWidth="115.0" layoutX="23.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">-->
-        <!--            <image>-->
-        <!--                <Image url="@X.png" />-->
-        <!--            </image>-->
-        <!--        </ImageView>-->
-<!--        <ImageView fitHeight="122.0" fitWidth="150.0" layoutX="462.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">-->
-<!--            <image>-->
-<!--                <Image url="@X.png" />-->
-<!--            </image>-->
-<!--        </ImageView>-->
-        <ImageView fitHeight="50.0" onMouseClicked="#back" fitWidth="50.0" layoutX="14.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
+
+        <ImageView fx:id="backImage" onMouseClicked="#back" fitHeight="50.0"  fitWidth="50.0" layoutX="14.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@back.png" />
             </image>
         </ImageView>
+
     </children>
-    <stylesheets>
-        <URL value="@2.css" />
-    </stylesheets>
 </AnchorPane>
