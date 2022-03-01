@@ -68,6 +68,8 @@ public class Player {
         this.invitePlayer.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; fx-text-fill: red; -fx-background-color: #FFFFFF");
         this.invitePlayer.setId(userName);
         invitePlayer.setCursor(Cursor.HAND);
+        if(!status.equals("online"))
+            this.invitePlayer.setDisable(true);
         this.invitePlayer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

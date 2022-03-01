@@ -1,10 +1,14 @@
 package client;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import database.*;
+
+import static java.sql.ResultSet.TYPE_SCROLL_SENSITIVE;
+
 public class Player {
     private String userName;
     private String password;
@@ -173,9 +177,15 @@ public class Player {
         try{
             ResultSet playersData = Db.getPlayers();
             if(playersData.first()) {
-                Player onePlayer = new Player(playersData);
-                players.add(onePlayer);
+                Player onePlayer;
+                if(userName!=null&&userName.equals(playersData.getString(1))) ;
+                else {
+                    onePlayer = new Player(playersData);
+                    players.add(onePlayer);
+                }
                 while (playersData.next()) {
+                    if(userName!=null&&userName.equals(playersData.getString(1)))
+                        continue;
                     onePlayer = new Player(playersData);
                     players.add(onePlayer);
                 }

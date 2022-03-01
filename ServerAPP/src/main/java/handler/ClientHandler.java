@@ -94,7 +94,7 @@ public class ClientHandler {
         System.out.println("PlayersBOT handler function: " + requestParts[0]);
         return switch (requestParts[0]) {
             case "getFriendsRequest" -> copyClient.clientUser.playerDate.getFriends();
-            case "getPlayersRequest" -> copyClient.clientUser.playerDate.getOnlinePlayers();
+            case "getPlayersRequest" -> copyClient.clientUser.playerDate.getPlayers();
             default -> null;
         };
     }
