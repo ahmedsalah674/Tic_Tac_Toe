@@ -210,6 +210,6 @@ public class Player {
     }
 
     public boolean inGame(){return isLogin()&&Db.inGame(userName);}
-    public boolean outGame(){return isLogin()&&Db.leaveGame(userName);}
+    public boolean leaveGame(){return isLogin()&&Db.leaveGame(userName);}
     public boolean setInGame() {return isLogin()&&Db.setInGame(userName);}
 }

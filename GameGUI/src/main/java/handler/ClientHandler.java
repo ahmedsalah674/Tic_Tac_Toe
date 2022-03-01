@@ -1,9 +1,6 @@
 package handler;
 
-import com.example.gamegui.ChooseGameController;
-import com.example.gamegui.Main;
-import com.example.gamegui.OnlineGameController;
-import com.example.gamegui.Player;
+import com.example.gamegui.*;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -24,10 +21,33 @@ public class ClientHandler {
             case "inviteMessageRequest" -> handleInviteMessageRequest(responseParts);
             case "gamePlayResponse" -> handleGamePlay(responseParts);
             case "playAgainResponse" -> handlePlayAgain(responseParts);
-            case "removeOtherPlayerResponse" -> handleRemoveOtherPlayer(responseParts);
+//            case "removeOtherPlayerResponse" -> handleRemoveOtherPlayer(responseParts);
+            case "leaveGameResponse" -> removeOtherPlayer();
+            case "updateScoreResponse" -> handleUpdateScore();
 //            case "logoutResponse" -> handleLogout(responseParts);
             default -> System.out.println("Unexpected value for request: " + String.join(":",responseParts));
         }
+    }
+    private static void handleUpdateScore(){
+        Platform.runLater(() -> {
+            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("opponent surrendered!!");
+            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
+            alert.setResizable(false);
+            alert.showAndWait();
+        });//replace it with show alert
+    }
+
+    private static void showAlert(Alert.AlertType type, String title, String header) {
+//        "information", "warning", "error", "confirmation"
+        Platform.runLater(() -> {
+            Alert alert = new Alert(type);
+            alert.setTitle(title);
+            alert.setResizable(false);
+            alert.setHeaderText(header);
+            alert.showAndWait();
+        });
     }
 
     private static void handleLogin(String[] responseParts) {
@@ -38,26 +58,21 @@ public class ClientHandler {
             System.out.println("logged in ");
             Platform.runLater(() -> {Main.s.setTitle(responseParts[2]);});
         }
+        else {
+            showAlert(Alert.AlertType.ERROR,"Login Error","Failed Login TryAgain");
+        }
     }
 
     private static void handleSignUp(String[] responseParts) {
         System.out.println("SignUp handler response function: " + responseParts[0]);
-//        if (responseParts.length >= 2 && responseParts[1].equals("true")) {
-            Platform.runLater(() -> {
-                System.out.println("in handleSignUp() and runLater() and user is " + Main.playerUserName);
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-           if(responseParts[1].equals("true")) {
-               alert.setTitle("SignUp Successfully");
-               alert.setHeaderText("SignUp Successfully");
-           } else {
-               alert.setTitle("SignUp Failed");
-               alert.setHeaderText("Sign Up Failed .... User already exists!");
-           }
-                alert.setResizable(false);
-                alert.showAndWait();});
-        Main.playerUserName=responseParts[2];
-        System.out.println("signed up");
-//        }
+        if(responseParts[1].equals("true")) {
+            showAlert(Alert.AlertType.INFORMATION, "SignUp Successfully", "SignUp Successfully You Can Login Now");
+            Main.playerUserName = responseParts[2];
+            System.out.println("signed up");
+        }
+        else
+            showAlert(Alert.AlertType.ERROR,"Sign up Error","Failed Signup Change This UserName And TryAgain");
+
     }
 
     private static void handleGetPlayers(String[] responseParts) {
@@ -92,8 +107,11 @@ public class ClientHandler {
             new OnlineGameController('O', true);
         } else {
             Main.otherPlayerUserName = null;
+            Main.sendMessage("leaveGameRequest", "Client");
             Main.changeSceneName("ChooseGameGui.fxml");
+            OnlineGameController.resetGame();
         }
+        Main.haveInvite=false;
     }
 
     private static void handleInviteMessageRequest(String[] responseParts) {
@@ -110,9 +128,12 @@ public class ClientHandler {
                 if (button == ButtonType.OK) {
                     Main.otherPlayerUserName = responseParts[1];
                     Main.sendMessage("inviteResponse:" + responseParts[1] + ":true","Client");
+//                    LoadController.StopLoad=false;
                     Main.changeSceneName("OnlineGameGui.fxml");
                     new OnlineGameController('X', false);
                 } else {
+//                    LoadController.StopLoad=false;
+                    Main.sendMessage("leaveGameRequest:"+":"+responseParts[1], "Client");
                     Main.otherPlayerUserName = null;
                     Main.sendMessage("inviteResponse:" + responseParts[1] + ":false","Client");
                 }
@@ -142,41 +163,38 @@ public class ClientHandler {
     private static void handlePlayAgain(String[] requestParts) {
         System.out.println("handlePlayAgain handler function: " + requestParts[0]);
         Main.changeSceneName("OnlineGameGui.fxml");
-        OnlineGameController.changeGameOver(false);
+        OnlineGameController.resetGame();
         OnlineGameController.setMyTurn(false);
-        OnlineGameController.resetBord();
-        OnlineGameController.resetBord();
-
     }
 
-    private static void handleRemoveOtherPlayer(String[] responseParts) {
-        System.out.println("handleRemoveOtherPlayer handler function: " + responseParts[0]);
-        Platform.runLater(() -> {
-            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("opponent surrendered!!");
-            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
-            alert.setResizable(false);
-            alert.showAndWait();
-        });//replace it with show alert
-        removeOtherPlayer();
-    }
+//    private static void handleRemoveOtherPlayer(String[] responseParts) {
+//        System.out.println("handleRemoveOtherPlayer handler function: " + responseParts[0]);
+//        Platform.runLater(() -> {
+//            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("opponent surrendered!!");
+//            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
+//            alert.setResizable(false);
+//            alert.showAndWait();
+//        });//replace it with show alert
+//        removeOtherPlayer();
+//    }
     private static void removeOtherPlayer(){
         Main.changeSceneName("ChooseGameGui.fxml");
         Main.otherPlayerUserName=null;
     }
 
-    private static void handleShowAlert(String[] responseParts) {
-//        "showAlertResponse:saveGame"
-        System.out.println("handleShowAlert handler function: " + responseParts[1]);
-        Platform.runLater(() -> {
-            System.out.println("in handleShowAlert() and runLater() and user is " + Main.playerUserName);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            getAlertMessage(responseParts[1],alert);
-            alert.setResizable(false);
-            alert.showAndWait();
-        });
-    }
+//    private static void handleShowAlert(String[] responseParts) {
+////        "showAlertResponse:saveGame"
+//        System.out.println("handleShowAlert handler function: " + responseParts[1]);
+//        Platform.runLater(() -> {
+//            System.out.println("in handleShowAlert() and runLater() and user is " + Main.playerUserName);
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            getAlertMessage(responseParts[1],alert);
+//            alert.setResizable(false);
+//            alert.showAndWait();
+//        });
+//    }
     private static void getAlertMessage(String responseParts,Alert alert){
         switch (responseParts){
             case "saveGame":

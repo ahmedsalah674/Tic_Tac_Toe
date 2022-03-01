@@ -3,7 +3,9 @@ package com.example.gamegui;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,7 +22,8 @@ public class OnlineGameController implements Initializable {
     @FXML private Button button_2_0;
     @FXML private Button button_2_1;
     @FXML private Button button_2_2;
-    //    @FXML private Button playAgain;
+    @FXML private Button playAgain;
+    @FXML private ImageView backImage;
     @FXML private Label txt;
     private static char[][] board = new char[3][3];
     static ArrayList<Button> buttons;
@@ -54,13 +57,7 @@ public class OnlineGameController implements Initializable {
             OnlineGameController.playerShape = playerShape;
     }
     public void back(){
-        if(Main.otherPlayerUserName!=null&&!OnlineGameController.isGameOver()) {
-            System.out.println("in back() in main and user is " + Main.playerUserName);
-            Main.sendMessage("removeOtherPlayerRequest:"+Main.otherPlayerUserName,"Client");
-            Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15,"Client");
-            Main.changeSceneName("ChooseGameGui.fxml");
-            Main.otherPlayerUserName=null;
-        }
+        Main.leaveGame();
     }
     public static void changeGameOver(boolean value){ gameOver=value; }
     @Override
@@ -69,21 +66,24 @@ public class OnlineGameController implements Initializable {
                 button_1_1, button_1_2, button_2_0, button_2_1, button_2_2));
         buttons.forEach(button -> {
             setupButton(button);
+            button.setCursor(Cursor.HAND);
             button.setFocusTraversable(false);
         });
         gameOver=false;
+        playAgain.setCursor(Cursor.HAND);
+        backImage.setCursor(Cursor.HAND);
     }
-    public static void resetBord(){
+    public static void resetGame(){
         board=new char[3][3];
         tilesLeft=9;
+        gameOver = false;
     }
     public void playAgain(){
         if(gameOver){
             Main.sendMessage("playAgainRequest:" + Main.otherPlayerUserName,"Client");
             Main.changeSceneName("OnlineGameGui.fxml");
-            resetBord();
+            resetGame();
             myTurn = true;
-            gameOver = false;
         }
     }
     public void setupButton(Button playedButton) {
@@ -151,16 +151,16 @@ public class OnlineGameController implements Initializable {
             if (line.equals("XXX")) {
                 winner='X';
                 gameOver = true;
-                if (playerShape=='X') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
+                if (playerShape=='X') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10+":false","Client");
+                break;
             }
             //O winner
             else if (line.equals("OOO")) {
                 winner='O';
                 gameOver = true;
-                if (playerShape=='O') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10,"Client");
-            }
-            //Tie
-            if (tilesLeft <=0) {
+                if (playerShape=='O') Main.sendMessage("updateScoreRequest:"+Main.playerUserName+":"+10+":false","Client");
+                break;
+            }else if (tilesLeft ==0) {
                 winner='T';
                 gameOver = true;
             }

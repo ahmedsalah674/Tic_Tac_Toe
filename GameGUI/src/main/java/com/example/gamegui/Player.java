@@ -1,8 +1,14 @@
 package com.example.gamegui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+
+import java.util.Optional;
 
 public class Player {
     private String userName;
@@ -61,14 +67,24 @@ public class Player {
         this.invitePlayer = new Button("Invite");
         this.invitePlayer.setStyle("-fx-border-color: #000000; -fx-border-width: 2px; fx-text-fill: red; -fx-background-color: #FFFFFF");
         this.invitePlayer.setId(userName);
+        invitePlayer.setCursor(Cursor.HAND);
         this.invitePlayer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                if (Main.otherPlayerUserName != null) {
-                    Main.sendMessage("inviteResponse:false","Client");
+                if(!Main.haveInvite) {
+                    Main.haveInvite=true;
+                    Main.sendMessage("inviteRequest:" + invitePlayer.getId(), "Client");
+                    Main.otherPlayerUserName = invitePlayer.getId();
+                }else{
+                    Platform.runLater(() -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("You Have Invite");
+                    alert.setHeaderText("You already Have Invite please wait");
+                    alert.setResizable(false);
+                    alert.showAndWait();
+                    });
                 }
-                Main.sendMessage("inviteRequest:" + invitePlayer.getId(),"Client");
-                Main.otherPlayerUserName = invitePlayer.getId();
+//                Main.changeSceneName("load.fxml");
             }
         });
     }

@@ -19,12 +19,13 @@ public class Main extends Application {
     public static mainThread MainThread;
     public static String playerUserName;
     public static String otherPlayerUserName;
+    public static boolean haveInvite;
     public static void changeSceneName(String sceneName) {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    System.err.println(sceneName);
+//                    System.err.println(sceneName);
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)));
                     Main.s.setScene(scene);
                 } catch (IOException e){
@@ -35,7 +36,6 @@ public class Main extends Application {
     }
     public static boolean sendMessage(String message,String responseType) {
         if (clientPrintStream != null) {
-//            System.err.println("--------"+clientSocket.);
             clientPrintStream.println(responseType + ":" + message);
             return true;
         }
@@ -65,21 +65,36 @@ public class Main extends Application {
 
     }
 
+    public static void leaveGame(){
+        if(Main.otherPlayerUserName!=null)
+        {
+            if(!OnlineGameController.isGameOver()){
+                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15+":true","Client");
+            }
+            Main.sendMessage("inviteResponse:" + Main.otherPlayerUserName + ":false","Client");
+            Main.sendMessage("leaveGameRequest:"+Main.otherPlayerUserName,"Client");
+            Main.changeSceneName("ChooseGameGui.fxml");
+            Main.otherPlayerUserName=null;
+            OnlineGameController.resetGame();
+        }
+    }
+
     @Override
     public void stop() {
         if(playerUserName!=null) {
-            if(otherPlayerUserName!=null&&!OnlineGameController.isGameOver()) {
-                System.out.println("in Stop() in main and user is " + playerUserName);
-                Main.sendMessage("removeOtherPlayerRequest:"+otherPlayerUserName,"Client");
-                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15,"Client");
-            }
+            leaveGame();
             sendMessage("logoutRequest","Client");
         }
         sendMessage("closeMERequest:"+playerUserName,"Server");
         try{
             if(clientSocket!=null) {
                 clientSocket.close();
-                MainThread.stop();
+                try {
+
+                    MainThread.stop();
+                } catch (Exception e){
+                    System.out.println(e);
+                }
             }
         }catch (IOException e){
             System.out.println("already closed");

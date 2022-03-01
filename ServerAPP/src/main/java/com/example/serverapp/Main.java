@@ -39,7 +39,7 @@ public class Main extends Application {
             @Override
             public void run() {
                 try {
-                    System.err.println(sceneName);
+//                    System.err.println(sceneName);
                     Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)),601, 405);
                     serverScene.setScene(scene);
                 } catch (IOException e) {

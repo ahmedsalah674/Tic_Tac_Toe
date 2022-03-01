@@ -26,6 +26,7 @@ public class ClientHandler {
             case "updateScoreRequest" -> handleUpdateScoreRequest(requestParts);
             case "playAgainRequest" -> handlePlayAgain(requestParts);
             case "removeOtherPlayerRequest" -> handleRemoveOtherPlayer(requestParts);
+            case "leaveGameRequest" -> handleLeaveGame(requestParts,copyClient);
             default -> System.out.println("Unexpected value for request: " + String.join(":",requestParts));
         }
     }
@@ -53,9 +54,12 @@ public class ClientHandler {
         System.out.println("handleSignUp handler function: " + requestParts[0]);
         copyClient.clientUser= new User(copyClient.ClientSocket);
         copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
-            String result = "signUpResponse:" + copyClient.clientUser.playerDate.signUp()+":"+requestParts[1];
+        boolean signUpResult= copyClient.clientUser.playerDate.signUp();
+            String result = "signUpResponse:" +signUpResult+":"+requestParts[1];
 //            usedClientForHandler.sendResponseMessage(result);
         copyClient.sendResponseMessage(result,"Client");
+        if(signUpResult)
+            Main.changeSceneName("ServerGui.fxml");
     }
 
     private static void handleGetPlayers(String[] requestParts,Client copyClient) {
@@ -155,10 +159,16 @@ public class ClientHandler {
     }
 
     private static void handleUpdateScoreRequest(String[] requestParts) {
+//        "handleUpdateScoreRequest:ahmed:10:false"
+//        "handleUpdateScoreRequest:ahmed:5:true"
         System.out.println("handleUpdateScoreRequest  request->"+requestParts[0]);
         Client result = Server.getUserByUserName(requestParts[1]);
         if(result!=null){
-                result.clientUser.playerDate.addScore(Integer.parseInt(requestParts[2]));
+            result.clientUser.playerDate.addScore(Integer.parseInt(requestParts[2]));
+//            result.sendResponseMessage(, )
+        }
+        if(requestParts[3].equals("true")) {
+            result.sendResponseMessage("updateScoreResponse", "Client");
         }
     }
 
@@ -179,6 +189,16 @@ public class ClientHandler {
         }
     }
 
+    public static void handleLeaveGame(String[] requestParts,Client copyClint){
+//        leaveRequest:ahmed
+//        Client result = Server.getUserByUserName(requestParts[1]);
+        if(copyClint.clientUser!=null&&copyClint.clientUser.playerDate!=null)
+            copyClint.clientUser.playerDate.leaveGame();
+//        if(result!=null)
+//            result.sendResponseMessage("leaveGameResponse", "Client");
+        Server.sendMessageForAll("getPlayersRequest", "Client");
+        Main.changeSceneName("ServerGui.fxml");
+    }
 }
 
 // gui will press button then on action method will send request fot server and wait for respond
