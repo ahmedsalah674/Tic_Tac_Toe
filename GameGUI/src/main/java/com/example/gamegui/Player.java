@@ -70,6 +70,9 @@ public class Player {
         invitePlayer.setCursor(Cursor.HAND);
         if(!status.equals("online"))
             this.invitePlayer.setDisable(true);
+        else
+            this.invitePlayer.setStyle("-fx-background-color: green ;-fx-text-fill: white;");
+
         this.invitePlayer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

@@ -33,8 +33,8 @@ public class Client extends Thread {
             this.printStream.println(responseType + ":" + responseMessage);
             return true;
         }
-        else
-            System.out.println("inside sendResponseMessage() printStream is null");
+//        else
+//            System.out.println("inside sendResponseMessage() printStream is null");
         return false;
     }
     public void run() {

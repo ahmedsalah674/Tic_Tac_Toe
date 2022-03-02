@@ -119,7 +119,7 @@ public class PlayerDatabase extends Database{
         try {
             PreparedStatement ps = con.prepareStatement("select * from friends " +
                     "where (playerName = ? and friendName =?)" +
-                    " or ( friendName = ? and playerName =?) ;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                    " or ( friendName = ? and playerName =?) ;", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, playerName);
             ps.setString(2, friendName);
             ResultSet friendShip = ps.executeQuery();
@@ -138,7 +138,7 @@ public class PlayerDatabase extends Database{
                 "union " +
                 "select friendName from friends where playerName =?)" +
                 " order by score desc;"
-                , TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                , TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             for (int i = 1; i <= 2; i++)
                 ps.setString(i, userName);
             friendsData = ps.executeQuery();
@@ -148,11 +148,11 @@ public class PlayerDatabase extends Database{
         return friendsData;
     }
     public ResultSet getPlayers() { //return null if DB not connect and list of players name ,status and score ordered by sore
-        System.out.println("isDbConnected()->" + isDbConnected());
+//        System.out.println("isDbConnected()->" + isDbConnected());
         ResultSet playersData = null;
         if (isDbConnected()) {
             try {
-                PreparedStatement ps = con.prepareStatement("select userName,status,score from players order by score desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                PreparedStatement ps = con.prepareStatement("select userName,status,score from players order by status desc ,score  desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 playersData = ps.executeQuery();
             } catch (SQLException e) {
                 System.out.println("inside the getPlayers" + e);
@@ -165,7 +165,7 @@ public class PlayerDatabase extends Database{
 //        ResultSet playersData = null;
 //        if (isDbConnected()) {
 //            try {
-//                PreparedStatement ps = con.prepareStatement("select userName,status,score from players where status=1 and userName != ? order by score desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//                PreparedStatement ps = con.prepareStatement("select userName,status,score from players where status=1 and userName != ? order by score desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 //                ps.setString(1, userName);
 //                playersData = ps.executeQuery();
 //            } catch (SQLException e) {
@@ -175,10 +175,10 @@ public class PlayerDatabase extends Database{
 //        return playersData;
 //    }
     public boolean updateScore(int points ,String userName) {
-        System.out.println("isDbConnected()->" + isDbConnected());
+//        System.out.println("isDbConnected()->" + isDbConnected());
         if (isDbConnected()) {
             try {
-                PreparedStatement ps = con.prepareStatement("update players set score=score+? where userName = ? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                PreparedStatement ps = con.prepareStatement("update players set score=score+? where userName = ? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ps.setInt(1, points);
                 ps.setString(2, userName);
                 int playersUpdated =ps.executeUpdate();
@@ -207,7 +207,7 @@ public class PlayerDatabase extends Database{
 //    }
     public boolean leaveGame(String userName){
         try {
-            PreparedStatement ps = con.prepareStatement("update players set status = 1 where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.prepareStatement("update players set status = 1 where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, userName);
             int userData = ps.executeUpdate();
             if (userData>0)
@@ -220,7 +220,7 @@ public class PlayerDatabase extends Database{
 
     public boolean setInGame(String userName){
         try {
-            PreparedStatement ps = con.prepareStatement("update players set status =2 where userName=? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            PreparedStatement ps = con.prepareStatement("update players set status =2 where userName=? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, userName);
             int userData = ps.executeUpdate();
             if (userData>0)

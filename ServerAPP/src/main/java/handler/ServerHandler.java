@@ -11,7 +11,7 @@ public class ServerHandler {
         switch (requestParts[0]) {
             case "locked" -> handleLocked(copyClient);
             case "closeMERequest" -> handleCloseMERequest(copyClient);
-            case "connectAgain" ->handleConnectAgain(requestParts, copyClient);
+            case "connectAgain" ->handleConnectAgain(copyClient);
             case "lockedAll" ->handleLockedAll();
             case "unlockedAll" ->handleUnlockedAll();
             case "checkConnection" ->handleCheckConnection(copyClient);
@@ -39,7 +39,7 @@ public class ServerHandler {
         }
     }
 
-    private static void handleConnectAgain(String[] requestParts, Client copyClient) {
+    private static void handleConnectAgain(Client copyClient) {
         if(Main.running)
             copyClient.sendResponseMessage("unlocked", "Server");
         else
@@ -47,14 +47,14 @@ public class ServerHandler {
     }
 
     private static void handleLockedAll() {
-        System.err.println(Server.clientVector.isEmpty());
+//        System.err.println(Server.clientVector.isEmpty());
         for (Client clientCounter:Server.clientVector) {
             handleLocked(clientCounter);
 //            System.out.println(ClientCounter.clientUser.playerDate.getUserName());
         }
     }
     private static void handleUnlockedAll() {
-        System.err.println(Server.clientVector.isEmpty());
+//        System.err.println(Server.clientVector.isEmpty());
         for (Client clientCounter:Server.clientVector) {
             clientCounter.sendResponseMessage("unlocked", "Server");
         }

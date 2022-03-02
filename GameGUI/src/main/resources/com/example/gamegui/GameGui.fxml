@@ -70,14 +70,14 @@
                 <Font name="Lucid Calligraphy Italic" size="14.0" />
             </font></Button>
         <ImageView fitHeight="115.0" fitWidth="115.0" layoutX="23.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@player.png" />
+                <Image url="@Images/player.png" />
         </ImageView>
         <ImageView fitHeight="100.0" fitWidth="115.0"  layoutX="462.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@ai.png" />
+                <Image url="@Images/ai.png" />
         </ImageView>
 
         <ImageView fx:id="backImage" onMouseClicked="#back" fitHeight="50.0"  fitWidth="50.0" layoutX="14.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@back.png" />
+                <Image url="@Images/back.png" />
         </ImageView>
 
     </children>

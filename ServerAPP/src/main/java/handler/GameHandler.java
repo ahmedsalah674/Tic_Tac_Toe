@@ -6,7 +6,7 @@ import server.Server;
 
 public class GameHandler {
     public static void handleRequest(String[] requestParts, Client clientInstance) {
-        System.out.println(" GameHandler Class-handleRequest() request-> " + requestParts[0]);
+//        System.out.println(" GameHandler Class-handleRequest() request-> " + requestParts[0]);
         switch (requestParts[0]) {
             case "createGameRequest"   -> handleCreateGameRequest(requestParts);
             case "saveThisGameRequest" -> handleSaveThisGame(requestParts,clientInstance);
@@ -19,8 +19,8 @@ public class GameHandler {
     }
 
     private static void handleRemoveGame(String[] requestParts) {
-        System.out.println(Game.removeGame(Integer.parseInt(requestParts[1])));
-
+//        System.out.println(Game.removeGame(Integer.parseInt(requestParts[1])));
+        Game.removeGame(Integer.parseInt(requestParts[1]));
     }
     private static void handleReloadGameRequest(String[] requestParts) {
         Client result = Server.getUserByUserName(requestParts[2]);

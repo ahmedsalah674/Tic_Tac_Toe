@@ -7,7 +7,7 @@ import static handler.ClientHandler.handleGamePlay;
 
 public class ChatHandler {
     public static void handleResponse(String[] responseParts) {
-        System.out.println(" handleRequest() response-> " + responseParts[0]);
+//        System.out.println(" handleRequest() response-> " + responseParts[0]);
         switch (responseParts[0]) {
 //            case "sendMessageRequest" -> handleSendMessage(responseParts);
             case "receiveMessage" -> handleReceiveMessage(responseParts);

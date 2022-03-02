@@ -14,14 +14,14 @@ public class Game {
     private String lastPlayer;
     private ArrayList<GameMove> moves;
     private static final GameDatabase Db =new GameDatabase();
-    public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public ArrayList<GameMove> getMoves() {return moves;}
-    public String getPlayerXUserName() {return playerXUserName;}
-    public String getPlayerOUserName() {return playerOUserName;}
+//    public int getId() {return id;}
+//    public void setId(int id) {this.id = id;}
+//    public ArrayList<GameMove> getMoves() {return moves;}
+//    public String getPlayerXUserName() {return playerXUserName;}
+//    public String getPlayerOUserName() {return playerOUserName;}
     public void setMoves(ArrayList<GameMove> moves) {this.moves = moves;}
-    public void setPlayerXUserName(String playerXUserName) {this.playerXUserName = playerXUserName;}
-    public void setPlayerOUserName(String playerOYUserName) {this.playerOUserName = playerOYUserName;}
+//    public void setPlayerXUserName(String playerXUserName) {this.playerXUserName = playerXUserName;}
+//    public void setPlayerOUserName(String playerOYUserName) {this.playerOUserName = playerOYUserName;}
     public boolean isEmpty(){return moves == null || moves.isEmpty();}
     public static class GameMove{
         private int moveNumber;
@@ -30,15 +30,15 @@ public class Game {
         private int yCoordinate;
         private char moveShape;
         private static final GameMoveDatabase Db =new GameMoveDatabase();
-        public int getMoveNumber() {return moveNumber;}
+//        public int getMoveNumber() {return moveNumber;}
         public void setMoveNumber(int moveNumber) {this.moveNumber = moveNumber;}
-        public int getGameID() {return gameID;}
+//        public int getGameID() {return gameID;}
         public void setGameID(int gameID) {this.gameID = gameID;}
-        public int getXCoordinate() {return xCoordinate;}
+//        public int getXCoordinate() {return xCoordinate;}
         public void setXCoordinate(int xCoordinate) {this.xCoordinate = xCoordinate;}
-        public int getYCoordinate() {return yCoordinate;}
+//        public int getYCoordinate() {return yCoordinate;}
         public void setYCoordinate(int yCoordinate) {this.yCoordinate = yCoordinate;}
-        public char getMoveShape() {return moveShape;}
+//        public char getMoveShape() {return moveShape;}
         public void setGameShape(String gameShape) {this.moveShape = gameShape.charAt(0);}
         public boolean createMove(){return Db.createGameMove(gameID,moveNumber,xCoordinate,yCoordinate, String.valueOf(moveShape));}
         public ArrayList<GameMove> getGameMovesById(){//

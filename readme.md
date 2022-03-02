@@ -1,4 +1,4 @@
-![Image](GameGUI/src/main/resources/com/example/gamegui/tic-tac-toe-17.png)
+![Image](GameGUI/src/main/resources/com/example/gamegui/Images/tic-tac-toe-17.png)
 # Tic-Tac-Toe
 This project is a Tic_Tac_Toe game with a client-server concept. The game has many features including playing with an 
 AI and playing in multiplayer mode

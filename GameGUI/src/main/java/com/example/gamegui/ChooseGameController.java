@@ -44,7 +44,6 @@ public class ChooseGameController implements Initializable {
     }
     public void playOffline() throws IOException {
         System.out.println("play offline");
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("ChooseDifficultyGui.fxml"));
-        rootPane.getChildren().setAll(pane);
+        Main.changeSceneName("ChooseDifficultyGui.fxml");
     }
 }

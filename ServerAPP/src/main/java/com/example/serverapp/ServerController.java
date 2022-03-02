@@ -8,11 +8,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import server.Server;
 
 import java.net.Socket;
 import java.net.URL;
@@ -40,21 +37,21 @@ public class ServerController  implements Initializable {
             score=player.getScore();
         }
 
-        public String getUserName() {
-            return userName;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public int getScore() {
-            return score;
-        }
-
-        public void setScore(int score) {
-            this.score = score;
-        }
+//        public String getUserName() {
+//            return userName;
+//        }
+//
+//        public String getStatus() {
+//            return status;
+//        }
+//
+//        public int getScore() {
+//            return score;
+//        }
+//
+//        public void setScore(int score) {
+//            this.score = score;
+//        }
 
         public void setStatus(int status) {
             switch (status) {
@@ -69,10 +66,17 @@ public class ServerController  implements Initializable {
     @FXML private TableColumn<PlayerGui, Integer> score;
     @FXML private TableColumn<PlayerGui, String> status;
     @FXML private Button StartServerBtn;
+    @FXML private TextArea serverLogs;
+//    private static ArrayList<TextArea> logs;
     public static ObservableList<PlayerGui> List = FXCollections.observableArrayList();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("initialize----------------"+Main.running);
+        serverLogs.setStyle("-fx-background-radius: 5px;-fx-padding: 3px");
+        serverLogs.setCursor(Cursor.DEFAULT);
+//        serverLogs.setDisable(true);
+        serverLogs.setEditable(false);
+//        logs=new ArrayList<>(Arrays.asList(serverLogs));
+//        System.out.println("initialize----------------"+Main.running);
         StartServerBtn.setStyle("-fx-background-color: red; -fx-text-fill: white");
         name.setCellValueFactory(new PropertyValueFactory<>("userName"));
         status.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -116,4 +120,7 @@ public class ServerController  implements Initializable {
             }
         }
     }
+//    public static void addLog(String log){
+//        logs.get(0).appendText(log+"\n");
+//    }
 }

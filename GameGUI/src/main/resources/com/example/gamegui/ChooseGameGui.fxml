@@ -35,12 +35,12 @@
         </Text>
         <ImageView fitHeight="53.0" fitWidth="67.0" layoutX="215.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@O.png" />
+                <Image url="@Images/O.png" />
             </image>
         </ImageView>
         <ImageView fitHeight="53.0" fitWidth="50.0" layoutX="16.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@X.png" />
+                <Image url="@Images/X.png" />
             </image>
         </ImageView>
 <!--        <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="14.0" layoutY="331.0" pickOnBounds="true" preserveRatio="true">-->

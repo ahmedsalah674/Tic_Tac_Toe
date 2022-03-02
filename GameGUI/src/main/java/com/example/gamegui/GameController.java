@@ -1,17 +1,27 @@
 package com.example.gamegui;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameController implements Initializable {
 
@@ -35,7 +45,7 @@ public class GameController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(difficulty);
+//        System.out.println(difficulty);
         buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
         buttons.forEach(button ->{
             setupCursor(button);
@@ -44,6 +54,8 @@ public class GameController implements Initializable {
         });
         backImage.setCursor(Cursor.HAND);
         resetbtn.setCursor(Cursor.HAND);
+//        if(difficulty==1)
+//            AImove();
     }
     @FXML
     void reset() {
@@ -53,6 +65,8 @@ public class GameController implements Initializable {
             Arrays.fill(row, 0);
         buttons.forEach(this::resetButton);
         txt.setText("");
+//        if(difficulty==1)
+//            AImove();
     }
     public static void setDifficulty(int difficulty) {
         GameController.difficulty = difficulty;
@@ -75,7 +89,7 @@ public class GameController implements Initializable {
             checkIfGameIsOver();
             if(movesLeft >= 1 && !gameOver) {
                 AImove();
-                movesLeft--;//7//5//3//1
+//                movesLeft--;//7//5//3//1
                 checkIfGameIsOver();
             }
         });
@@ -86,6 +100,7 @@ public class GameController implements Initializable {
             easyAI();
         else
             hardAI();
+        movesLeft--;
     }
     private void easyAI(){
         int x;
@@ -100,7 +115,7 @@ public class GameController implements Initializable {
     }
     private void hardAI() {
         int[]aiMove = findBestMove(board);
-        System.out.println(aiMove.toString());
+//        System.out.println(aiMove.toString());
         displayAiMove(aiMove[0],aiMove[1]);
     }
     public void displayAiMove(int x, int y){
@@ -182,19 +197,21 @@ public class GameController implements Initializable {
                 txt.setText("X won!");
                 buttons.forEach(button -> button.setDisable(true));
                 gameOver = true;
-
+                Main.changeSceneName("loser.fxml");
             }
             //O winner
             else if (line.equals("OOO")) {
                 txt.setText("O won!");
                 buttons.forEach(button -> button.setDisable(true));
                 gameOver = true;
+                Main.changeSceneName("winner.fxml");
             }
             //Tie
             if(movesLeft <=0 && !gameOver)
             {
-                txt.setText("Oh NO!! .... Its A Tie!");
                 gameOver = true;
+                Main.changeSceneName("Tie.fxml");
+//                txt.setText("Oh NO!! .... Its A Tie!");
             }
         }
     }
@@ -216,9 +233,9 @@ public class GameController implements Initializable {
             if (b[row][0] == b[row][1] &&
                     b[row][1] == b[row][2])
             {
-                if (b[row][0] == 1)
+                if (b[row][0] == 2)
                     return +10; // any  postive number
-                else if (b[row][0] == 2)
+                else if (b[row][0] == 1)
                     return -10;  // any negative number
             }
         }
@@ -229,10 +246,10 @@ public class GameController implements Initializable {
             if (b[0][col] == b[1][col] &&
                     b[1][col] == b[2][col])
             {
-                if (b[0][col] == 1)
+                if (b[0][col] == 2)
                     return +10;
 
-                else if (b[0][col] == 2)
+                else if (b[0][col] == 1)
                     return -10;
             }
         }
@@ -240,17 +257,17 @@ public class GameController implements Initializable {
         // Checking for Diagonals for X or O
         if (b[0][0] == b[1][1] && b[1][1] == b[2][2])
         {
-            if (b[0][0] == 1)
+            if (b[0][0] == 2)
                 return +10;
-            else if (b[0][0] == 2)
+            else if (b[0][0] == 1)
                 return -10;
         }
 
         if (b[0][2] == b[1][1] && b[1][1] == b[2][0])
         {
-            if (b[0][2] == 1)
+            if (b[0][2] == 2)
                 return +10;
-            else if (b[0][2] == 2)
+            else if (b[0][2] == 1)
                 return -10;
         }
         // Else if none of them have won then return 0
@@ -288,7 +305,7 @@ public class GameController implements Initializable {
                     if (board[i][j]==0)
                     {
                         // Make the move
-                        board[i][j] = 1;
+                        board[i][j] = 2;
 
                         // Call minimax recursively and choose
                         // the maximum value
@@ -300,7 +317,7 @@ public class GameController implements Initializable {
                     }
                 }
             }
-            return best;
+            return (best-depth);
         }
 
         // If this minimizer's move
@@ -316,7 +333,7 @@ public class GameController implements Initializable {
                     if (board[i][j] == 0)
                     {
                         // Make the move
-                        board[i][j] = 2;
+                        board[i][j] = 1;
                         // Call minimax recursively and choose
                         // the minimum value
                         best = Math.min(best, minimax(board,
@@ -326,7 +343,7 @@ public class GameController implements Initializable {
                     }
                 }
             }
-            return best;
+            return (best+depth);
         }
     }
     public int[] findBestMove(int [][]board)
@@ -346,7 +363,7 @@ public class GameController implements Initializable {
                 if (board[i][j] == 0)
                 {
                     // Make the move
-                    board[i][j] = 1;
+                    board[i][j] = 2;
 
                     // compute evaluation function for this
                     // move.
@@ -378,4 +395,39 @@ public class GameController implements Initializable {
                 System.out.println(arr[i][j]);
         }
     }
+    public void showVideoAlert(){
+        StackPane secondaryLayout2 = new StackPane();
+////        Media media = new Media(new File("src/main/resources/com/example/gamegui/videoplayback.flv").toURI().toString());
+//        Media media = new Media("https://doc-00-6g-docs.googleusercontent.com/docs/securesc/9prknvmcj9gud36ias9pvl2lhiqtn8uf/q5uprmpeji571dq7p6dbl4986fol3tm7/1646232900000/07243282101955004259/07243282101955004259/1SJ93esbbc_USofGV4CclGaOrI14-561c?e=download&ax=ACxEAsa4Mce8nTVX9tFsuDnvc5NfG1utyxYT-X-mgTGf_avCGwp7F9HKNMrrDDfDNPtO8aAGJ3L8stroFgeMUPMFMWUfXznGK2t2-0cEBomXF0o3jjmhAN2KgmWf6Z8QW-cZsDIq2nkvCdKJDf71jUYEzm3ajPnCUE1u2yjkmWzCYgKj_H87l8PhEl_Hk_xHHaQidO7FRV8tT31qmzJJyKg81QPKER8htxuACamyWyvNqLdg0I3sW_aWK7V2r6eJPqUeL2nqe0S3mPw9s-BuzLQDng0IlUdiUnIYJ0eLzWdBQxx-o-gxCQK2LRSGpd2_3-BDDfvXpKbtsu4F9t7s63oAOeTKIYddHIgqhXDGcGHLs4sMY0ggtQ-lbVrYLH8RmAJy8RixeL2-4tREWyfnBAWortS1yPNF5zl2K2VwmnBHVs88A7MoAyEWXYP0bATywD5O-9Be0wLRtUC5MXl3sffEHXvu4bnHkPJER7AYd0ZSjslJzL11WarD_6zbW1pR7bYihVkFLI0WEMI-lZm2lA75c8VhMZd0zm_9TrZZpOIwn-IG5_C5tnO7bV5A9N1-9bUktq19Bbaj2_HCFFcwO5Bw8n4svvzZJlEFj2eWg6tQXycOmVMbN38PlQ8kZrV_9SprVOgjGJsP7qWKrvTv4TOARDrKmGb0aKuFYX_JLgly&authuser=0&nonce=9if50m0mqgg3u&user=07243282101955004259&hash=e391mlep2huf97v0rri876jm4k6437vo");
+//        MediaPlayer videoForWinner = new MediaPlayer(media);
+        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("loser.mp4").toExternalForm()));
+        MediaView mediaView2 = new MediaView(videoForWinner);
+        secondaryLayout2.getChildren().addAll(mediaView2);
+        Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+        Stage secondStage2 = new Stage();
+        secondStage2.setResizable(false);
+        secondStage2.setScene(secondScene2);
+        secondStage2.show();
+        videoForWinner.play();
+        PauseTransition delay = new PauseTransition(Duration.seconds(10));
+        delay.setOnFinished( event -> secondStage2.close() );
+        delay.play();
+    }
+//        String path = "/home/ahmedsalah/-----------------------/lastUpdatedVersion/GameGUI/playAgain.mp4";
+//        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource(path).toExternalForm()));
+////        Media media = new Media(new File(path).toURI().toString());
+////        MediaPlayer videoForLoser = new MediaPlayer(media);
+//////        videoForLoser.setAutoPlay(true);
+//        MediaView mediaView = new MediaView(videoForWinner);
+////        Label label = new Label("Do you really think your time is correct?");
+////        VBox content = new VBox(10, label, mediaView);
+//        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
+//        Label label = new Label("Do you really think your time is correct?");
+//        VBox content = new VBox(10, label, mediaView);
+//        content.setAlignment(Pos.CENTER);
+//        alert.getDialogPane().setContent(content);
+//        Optional<ButtonType> result = alert.showAndWait();
+//        result.
+////        alert.setGraphic(new MediaView(new Media("")));
+//    }
 }

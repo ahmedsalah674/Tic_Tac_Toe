@@ -5,7 +5,7 @@ import server.Server;
 
 public class ChatHandler  {
     public static void handleRequest(String[] requestParts, Client clientInstance) {
-        System.out.println(" GameHandler Class-handleRequest() request-> " + requestParts[0]);
+//        System.out.println(" GameHandler Class-handleRequest() request-> " + requestParts[0]);
         switch (requestParts[0]) {
             case "sendMessageRequest"->handleSendMessage(requestParts);
             default -> System.out.println("Unexpected value for request: " + requestParts[0]);

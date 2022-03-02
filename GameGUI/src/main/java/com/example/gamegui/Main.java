@@ -105,7 +105,7 @@ public class Main extends Application {
         public void run() {
             try {
                 while (true) {
-                    System.out.println("here in main thread");
+//                    System.out.println("here in main thread");
                     String line = clientDataInputStream.readLine();
                     if (line != null) {
 //                        System.out.println("line is -> " + line);
@@ -134,7 +134,7 @@ public class Main extends Application {
             sendMessage("checkConnection", "Server");
             return true;
         } catch (IOException e) {
-            System.out.println("clientSocket");
+//            System.out.println("clientSocket");
             System.out.println("server is off");
             return false;
         }

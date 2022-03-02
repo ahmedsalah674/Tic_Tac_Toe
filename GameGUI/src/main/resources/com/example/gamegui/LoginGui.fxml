@@ -13,7 +13,7 @@
     <children>
         <ImageView fitHeight="354.0" fitWidth="354.0" layoutX="12.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true">
             <image>
-                <Image url="@tic-tac-toe-17.png" />
+                <Image url="@Images/tic-tac-toe-17.png" />
             </image>
         </ImageView>
         <AnchorPane layoutX="380.0" layoutY="-4.0" prefHeight="410.0" prefWidth="328.0" style="-fx-background-color: #9c2b27; -fx-background-radius: 0;">

@@ -44,17 +44,17 @@ public class LoginController implements Initializable {
         });
     }
 
-    public void login() throws IOException {
+    public void login(){
         if (checkField()) {
             Main.sendMessage("loginRequest:" + user_name.getText() + ":" + user_pass.getText(), "Client");
-            System.out.println("login in loginController");
+//            System.out.println("login in loginController");
         } else {
             showAlert(Alert.AlertType.ERROR, "Login ERROR", "Please Fill All Fields Then Press Login or Enter");
         }
     }
 
     public void signup() throws IOException {
-        System.out.println("signup in loginController");
+//        System.out.println("signup in loginController");
         if (checkField()) {
             Main.sendMessage("signUpRequest:" + user_name.getText() + ":" + user_pass.getText(), "Client");
         } else {

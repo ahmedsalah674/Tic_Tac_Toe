@@ -34,7 +34,7 @@ public class Server extends Thread {
     public void run() {
         try {
             while (true) {
-                System.out.println("i'm still here");
+//                System.out.println("i'm still here");
                 Socket newClientSocket = serverSocket.accept();
                 User newUser = new User(newClientSocket);
                 Client newClient = new Client(newUser);

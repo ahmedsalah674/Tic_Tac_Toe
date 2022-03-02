@@ -27,7 +27,7 @@ public class OnlineGameController implements Initializable {
     @FXML private Button button_2_2;
     @FXML private Button sendBtn;
     @FXML private Button saveBtn;
-    @FXML private Button playAgain;
+//    @FXML private Button playAgain;
     @FXML private ImageView backImage;
     @FXML private Text PlayerX;
     @FXML private Text PlayerO;
@@ -35,10 +35,10 @@ public class OnlineGameController implements Initializable {
     @FXML private TextField messageField;
     public OnlineGameController() {}
     public static char[][] board = new char[3][3];
-    public static ArrayList<Button> buttons;
+        public static ArrayList<Button> buttons;
     public static ArrayList<TextArea> chat;
     private static boolean myTurn;
-    private static char winner;
+    public static char winner;
     public static void setMyTurn(boolean myTurn) {
         OnlineGameController.myTurn = myTurn;
     }
@@ -84,7 +84,6 @@ public class OnlineGameController implements Initializable {
         chatBox.setStyle("-fx-padding: 2px;fx-font-size:14px; -fx-background-radius: 10;");
         saveBtn.setCursor(Cursor.HAND);
         sendBtn.setCursor(Cursor.HAND);
-//        playAgain.setCursor(Cursor.HAND);
         backImage.setCursor(Cursor.HAND);
         if(playerShape=='X') {
             PlayerX.setText(Main.playerUserName);
@@ -100,7 +99,7 @@ public class OnlineGameController implements Initializable {
         gameOver = false;
         gameSaved=false;
     }
-    public void playAgain(){
+    public static void playAgain(){
         if(gameOver){
             Main.sendMessage("playAgainRequest:" + Main.otherPlayerUserName,"Client");
             Main.changeSceneName("OnlineGameGui.fxml");
@@ -110,8 +109,8 @@ public class OnlineGameController implements Initializable {
     }
     public void setupButton(Button playedButton) {
         playedButton.setOnMouseClicked(mouseEvent -> {
-            System.out.println("here in mouseEvent myTurn "+ myTurn );
-            System.out.println("here in mouseEvent  gameOver"+ gameOver );
+//            System.out.println("here in mouseEvent myTurn "+ myTurn );
+//            System.out.println("here in mouseEvent  gameOver"+ gameOver );
             if (myTurn && !gameOver) {
                 gameLogicFire(playedButton, playerShape);
                 String[] move = playedButton.getId().split("_");
@@ -136,7 +135,8 @@ public class OnlineGameController implements Initializable {
         if (gameOver) {
             for (Button b : buttons)
                 b.setDisable(true);
-            setMessageValueAndShow();
+//            setMessageValueAndShow();
+            setMessageValue();
         }
     }
     public static Button getButton(String buttonID) {
@@ -193,33 +193,32 @@ public class OnlineGameController implements Initializable {
             }
         }
     }
-    private static void showAlert(String title, String message){
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText(message);
-            alert.setResizable(false);
-            alert.showAndWait();
-        });
-    }
+//    private static void showAlert(String title, String message){
+//        Platform.runLater(() -> {
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle(title);
+//            alert.setHeaderText(message);
+//            alert.setResizable(false);
+//            alert.showAndWait();
+//        });
+//    }
     public static void setMessageValue(){
         if(gameOver){
             if(playerShape==winner) {
                 title = "We have a Winner here:\" ";
                 message = "Wonderful "+Main.playerUserName+" You Win this game GG :) ";
+                Main.changeSceneName("winner.fxml");
             }else if(winner=='T'){
                 title = "Tie :| ";
                 message="Oh no!! .... its a Tie!!";
+                Main.changeSceneName("Tie.fxml");
             }
             else {
                 title = "We have a loser here:\" ";
-                message="Sorry "+ Main.playerUserName +" but you lost this game:\" ";
+                message="Sorry "+ Main.playerUserName +" but you lost this game:\") ";
+                Main.changeSceneName("loser.fxml");
             }
         }
-    }
-    public static void setMessageValueAndShow(){
-        setMessageValue();
-        showAlert(title, message);
     }
     public static void addToChatBox(String message){
         chat.get(0).appendText(message);

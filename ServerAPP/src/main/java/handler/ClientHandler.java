@@ -18,21 +18,21 @@ public class ClientHandler {
             case "getPlayersRequest" -> handleGetPlayers(requestParts,copyClient);
             case "getFriendsRequest" -> handleGetFriends(requestParts, copyClient);
             case "gamePlayRequest" -> handleGamePlay(requestParts);
-            case "gameSaveRequest" -> handleGameSave(requestParts);
-            case "logoutRequest" -> handleLogout(requestParts,copyClient);
+//            case "gameSaveRequest" -> handleGameSave(requestParts);
+            case "logoutRequest" -> handleLogout(copyClient);
             case "inviteRequest" -> handleInvite(requestParts, copyClient);
             case "inviteResponse" -> handleInviteResponse(requestParts);
             case "closeMERequest" -> handleCloseMERequest(requestParts);
             case "updateScoreRequest" -> handleUpdateScoreRequest(requestParts);
             case "playAgainRequest" -> handlePlayAgain(requestParts);
             case "removeOtherPlayerRequest" -> handleRemoveOtherPlayer(requestParts);
-            case "leaveGameRequest" -> handleLeaveGame(requestParts,copyClient);
+            case "leaveGameRequest" -> handleLeaveGame(copyClient);
             default -> System.out.println("Unexpected value for request: " + String.join(":",requestParts));
         }
     }
 
     private static void handleLogin(String[] requestParts, Client copyClient) {
-        System.out.println("login handler function: " + requestParts[0]);
+//        System.out.println("login handler function: " + requestParts[0]);
             copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
             boolean isLogin = copyClient.clientUser.playerDate.login();
            String result = "loginResponse:" +isLogin+":"+requestParts[1];
@@ -44,14 +44,14 @@ public class ClientHandler {
         }
         if(isLogin)
         {
-            System.out.println("----------------------------"+true);
+//            System.out.println("----------------------------"+true);
             Main.changeSceneName("ServerGui.fxml");
         }
         copyClient.sendResponseMessage(result,"Client");
     }
 
     private static void handleSignUp(String[] requestParts,Client copyClient) {
-        System.out.println("handleSignUp handler function: " + requestParts[0]);
+//        System.out.println("handleSignUp handler function: " + requestParts[0]);
         copyClient.clientUser= new User(copyClient.ClientSocket);
         copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
         boolean signUpResult= copyClient.clientUser.playerDate.signUp();
@@ -63,7 +63,7 @@ public class ClientHandler {
     }
 
     private static void handleGetPlayers(String[] requestParts,Client copyClient) {
-        System.out.println("handleGetPlayers handler function: " + requestParts[0]);
+//        System.out.println("handleGetPlayers handler function: " + requestParts[0]);
         String stringPlayersData = "getPlayersResponse:";
         if (copyClient != null && copyClient.clientUser != null && copyClient.clientUser.playerDate != null) {
             ArrayList<Player> players = PlayersBOT(requestParts,copyClient);
@@ -73,7 +73,7 @@ public class ClientHandler {
     }
 
     private static void handleGetFriends(String[] requestParts, Client copyClient) {
-        System.out.println("handleGetFriends handler function: " + requestParts[0]);
+//        System.out.println("handleGetFriends handler function: " + requestParts[0]);
         String stringFriendsData = "getFriendsResponse:";
         if (copyClient != null && copyClient.clientUser != null && copyClient.clientUser.playerDate != null) {
             ArrayList<Player> friends = PlayersBOT(requestParts,copyClient);
@@ -91,7 +91,7 @@ public class ClientHandler {
     }
 
     private static ArrayList<Player> PlayersBOT(String[] requestParts,Client copyClient) {
-        System.out.println("PlayersBOT handler function: " + requestParts[0]);
+//        System.out.println("PlayersBOT handler function: " + requestParts[0]);
         return switch (requestParts[0]) {
             case "getFriendsRequest" -> copyClient.clientUser.playerDate.getFriends();
             case "getPlayersRequest" -> copyClient.clientUser.playerDate.getPlayers();
@@ -99,7 +99,7 @@ public class ClientHandler {
         };
     }
     private static void handleGamePlay(String[] responseParts) {
-        System.out.println("handleGamePlay handler function: " + responseParts[0]);
+//        System.out.println("handleGamePlay handler function: " + responseParts[0]);
 //        "gamePlayRequest:Main.playerUserName:Main.otherPlayerUserName:X:+move[1]_move[2]
         Client player = Server.getUserByUserName(responseParts[1]);
         Client otherPlayer = Server.getUserByUserName(responseParts[2]);
@@ -108,34 +108,36 @@ public class ClientHandler {
             otherPlayer.sendResponseMessage(message,"Client");
         }
     }
-    private static void handleGameSave(String[] requestParts) {
-        System.out.println("handleGameSave handler function: " + requestParts[0]);
-    }
+//    private static void handleGameSave(String[] requestParts) {
+//        System.out.println("handleGameSave handler function: " + requestParts[0]);
+//    }
 
     private static void handleInvite(String[] requestParts, Client copyClient) {
+        // ahmed - 1
         if(copyClient.clientUser!=null&&copyClient.clientUser.playerDate!=null);
             copyClient.clientUser.playerDate.setInGame();
         Client result = Server.getUserByUserName(requestParts[1]);
-        if (result != null)
+        if (result != null&&result.clientUser.playerDate!=null) {
             result.clientUser.playerDate.setInGame();
-            result.sendResponseMessage("inviteMessageRequest:" + copyClient.clientUser.playerDate.getUserName(),"Client");
+            result.sendResponseMessage("inviteMessageRequest:" + copyClient.clientUser.playerDate.getUserName(), "Client");
+        }
         Main.changeSceneName("ServerGui.fxml");
         Server.sendMessageForAll("getPlayersRequest", "Client");
-        System.out.println("handleInvite handler function: " + requestParts[0]);
+//        System.out.println("handleInvite handler function: " + requestParts[0]);
     }
 
     private static void handleInviteResponse(String[] requestParts) {
         Client result = Server.getUserByUserName(requestParts[1]);
         if (result != null)
             result.sendResponseMessage("inviteResponse:" + requestParts[2],"Client");
-        System.out.println("handleInviteResponse(): " + requestParts[0]);
+//        System.out.println("handleInviteResponse(): " + requestParts[0]);
     }
 
-    private static void handleLogout(String[] requestParts, Client copyClient) {
-        System.out.println("handleLogout handler function: " + requestParts[0]);
-        System.out.println("handleLogout:" + copyClient.clientUser.playerDate.logout());
+    private static void handleLogout(Client copyClient) {
+//        System.out.println("handleLogout handler function: " + requestParts[0]);
+        System.out.println("handleLogout:" + copyClient.clientUser.playerDate.logout());//in server logs
         if(!Server.clientVector.isEmpty()){
-            System.out.println("!Server.clientVector.isEmpty");
+            System.out.println("!Server.clientVector.isEmpty"); //logs
             for (Client counter:Server.clientVector) {
                 ClientHandler.handleRequest(new String[]{"getPlayersRequest"}, counter);
             }
@@ -161,19 +163,19 @@ public class ClientHandler {
     private static void handleUpdateScoreRequest(String[] requestParts) {
 //        "handleUpdateScoreRequest:ahmed:10:false"
 //        "handleUpdateScoreRequest:ahmed:5:true"
-        System.out.println("handleUpdateScoreRequest  request->"+requestParts[0]);
+//        System.out.println("handleUpdateScoreRequest  request->"+requestParts[0]);
         Client result = Server.getUserByUserName(requestParts[1]);
         if(result!=null){
             result.clientUser.playerDate.addScore(Integer.parseInt(requestParts[2]));
 //            result.sendResponseMessage(, )
-        }
-        if(requestParts[3].equals("true")) {
-            result.sendResponseMessage("updateScoreResponse", "Client");
+            if(requestParts[3].equals("true")) {
+                result.sendResponseMessage("updateScoreResponse", "Client");
+            }
         }
     }
 
     private static void handlePlayAgain(String[] requestParts) {
-        System.out.println("handlePlayAgain request->"+requestParts[0]);
+//        System.out.println("handlePlayAgain request->"+requestParts[0]);
         Client result = Server.getUserByUserName(requestParts[1]);
         if(result!=null){
             result.sendResponseMessage("playAgainResponse","Client") ;
@@ -181,7 +183,7 @@ public class ClientHandler {
     }
 
     private static void handleRemoveOtherPlayer(String[] requestParts) {
-        System.out.println("handleRemoveOtherPlayer request->"+requestParts[0]);
+//        System.out.println("handleRemoveOtherPlayer request->"+requestParts[0]);
         Client result = Server.getUserByUserName(requestParts[1]);
         if(result!=null){
 //            "removeOtherPlayer:"+otherPlayerUserName
@@ -189,7 +191,7 @@ public class ClientHandler {
         }
     }
 
-    public static void handleLeaveGame(String[] requestParts,Client copyClint){
+    public static void handleLeaveGame(Client copyClint){
 //        leaveRequest:ahmed
 //        Client result = Server.getUserByUserName(requestParts[1]);
         if(copyClint.clientUser!=null&&copyClint.clientUser.playerDate!=null)

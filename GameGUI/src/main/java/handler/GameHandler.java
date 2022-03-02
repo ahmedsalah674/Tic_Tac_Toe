@@ -93,7 +93,7 @@ public class GameHandler {
         }
     }
     public static void handleResponse(String[] responseParts) {
-        System.out.println("GameHandler-handleResponse() response-> " + responseParts[0]);
+//        System.out.println("GameHandler-handleResponse() response-> " + responseParts[0]);
         switch (responseParts[0]) {
             case "createGameRequest"   -> handleCreateGameRequest(responseParts);
             case "saveThisGameResponse"->handleSaveThisGameResponse(responseParts);
@@ -106,14 +106,7 @@ public class GameHandler {
     }
 
     private static void handleLoadGameResponse(String[] responseParts) {
-        Game savedGame = new Game(responseParts[1],responseParts[2], responseParts[3], responseParts[4], responseParts[5]);
-        char  playerShape;
-        if(savedGame.playerXUserName.equals(Main.playerUserName))
-            playerShape='X';
-        else
-            playerShape='O';
-        OnlineGameController.setMyTurn(savedGame.lastPlayer.equals(Main.playerUserName));
-        OnlineGameController.setPlayerShape(playerShape);
+        Game savedGame=getSavedGame(responseParts);;
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Continue Game!!");
@@ -123,6 +116,18 @@ public class GameHandler {
             loadGame(savedGame);
         });
             Main.sendMessage("removeGameRequest:"+savedGame.id,"Game");
+    }
+
+    private static Game getSavedGame(String[] responseParts) {
+        Game savedGame = new Game(responseParts[1],responseParts[2], responseParts[3], responseParts[4], responseParts[5]);
+        char  playerShape;
+        if(savedGame.playerXUserName.equals(Main.playerUserName))
+            playerShape='X';
+        else
+            playerShape='O';
+        OnlineGameController.setMyTurn(savedGame.lastPlayer.equals(Main.playerUserName));
+        OnlineGameController.setPlayerShape(playerShape);
+        return savedGame;
     }
 
     private static void loadGame(Game savedGame) {
@@ -135,14 +140,7 @@ public class GameHandler {
     private static void handleGetGameResponse(String[] responseParts) {
         //getGameResponse:13:ahmed:ahmeds:ahmed:[1-13-0-0-O, 2-13-0-1-X, 3-13-0-2-O, 4-13-1-1-X]
         if(!responseParts[1].equals("null")){
-            Game savedGame = new Game(responseParts[1],responseParts[2], responseParts[3], responseParts[4], responseParts[5]);
-            char  playerShape;
-            if(savedGame.playerXUserName.equals(Main.playerUserName))
-                playerShape='X';
-            else
-                playerShape='O';
-                OnlineGameController.setMyTurn(savedGame.lastPlayer.equals(Main.playerUserName));
-            OnlineGameController.setPlayerShape(playerShape);
+            Game savedGame = getSavedGame(responseParts);
             if(OnlineGameController.getMyTurn()) {
                 Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

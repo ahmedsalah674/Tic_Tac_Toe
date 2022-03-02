@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class ClientHandler {
     public static void handleRequest(String[] responseParts) {
-        System.out.println(" handleRequest() response-> " + responseParts[0]);
+//        System.out.println(" handleRequest() response-> " + responseParts[0]);
 //        String[] responseParts = response.split(":");
         switch (responseParts[0]) {
             case "loginResponse" -> handleLogin(responseParts);
@@ -49,7 +49,7 @@ public class ClientHandler {
     }
 
     private static void handleLogin(String[] responseParts) {
-        System.out.println("login handler response function: " + responseParts[0]);
+//        System.out.println("login handler response function: " + responseParts[0]);
         if (responseParts.length >= 2 && responseParts[1].equals("true")) {
             Main.playerUserName = responseParts[2];
             Main.changeSceneName("ChooseGameGui.fxml");
@@ -62,7 +62,7 @@ public class ClientHandler {
     }
 
     private static void handleSignUp(String[] responseParts) {
-        System.out.println("SignUp handler response function: " + responseParts[0]);
+//        System.out.println("SignUp handler response function: " + responseParts[0]);
         if(responseParts[1].equals("true")) {
             showAlert(Alert.AlertType.INFORMATION, "SignUp Successfully", "SignUp Successfully You Can Login Now");
             Main.playerUserName = responseParts[2];
@@ -81,7 +81,7 @@ public class ClientHandler {
     }
 
     private static void handleGetFriends(String[] responseParts) {
-        System.out.println("getFriends response handler function: " + responseParts[0]);
+//        System.out.println("getFriends response handler function: " + responseParts[0]);
         ArrayList<Player> players = stringToPlayers(responseParts);
         new ChooseGameController(players);
     }
@@ -114,25 +114,22 @@ public class ClientHandler {
     }
 
     private static void handleInviteMessageRequest(String[] responseParts) {
-        System.out.println("handleInviteMessageRequest()");
+//        System.out.println("handleInviteMessageRequest()");
         if (responseParts.length > 1) {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle("invite Message");
                 alert.setHeaderText(responseParts[1] + " has invited you to play with him");
                 alert.setResizable(false);
-//                        setTimeout(() -> System.out.println("test"), 7000,alert);
                 Optional<ButtonType> result = alert.showAndWait();
                 ButtonType button = result.orElse(ButtonType.CANCEL);
                 if (button == ButtonType.OK) {
                     Main.otherPlayerUserName = responseParts[1];
                     Main.sendMessage("inviteResponse:" + responseParts[1] + ":true","Client");
-//                    LoadController.StopLoad=false;
                     Main.changeSceneName("OnlineGameGui.fxml");
                     new OnlineGameController('X', false);
                     Main.sendMessage("getGameRequest:"+Main.playerUserName+":"+Main.otherPlayerUserName,"Game");
                 } else {
-//                    LoadController.StopLoad=false;
                     Main.sendMessage("leaveGameRequest:"+":"+responseParts[1], "Client");
                     Main.otherPlayerUserName = null;
                     Main.sendMessage("inviteResponse:" + responseParts[1] + ":false","Client");
@@ -162,7 +159,7 @@ public class ClientHandler {
         }).start();
     }
     private static void handlePlayAgain(String[] requestParts) {
-        System.out.println("handlePlayAgain handler function: " + requestParts[0]);
+//        System.out.println("handlePlayAgain handler function: " + requestParts[0]);
         Main.changeSceneName("OnlineGameGui.fxml");
         OnlineGameController.resetGame();
         OnlineGameController.setMyTurn(false);
