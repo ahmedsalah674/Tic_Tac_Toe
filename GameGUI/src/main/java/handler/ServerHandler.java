@@ -4,7 +4,7 @@ import com.example.gamegui.Main;
 
 public class ServerHandler {
     public static void handleRequest(String[] responseParts) {
-        System.out.println(" handleRequest() response-> " + responseParts[0]);
+//        System.out.println(" handleRequest() response-> " + responseParts[0]);
 //        String[] responseParts = response.split(":");
         switch (responseParts[0]) {
             case "locked" -> handleLocked();

@@ -68,7 +68,7 @@ public class Main extends Application {
     public static void leaveGame(){
         if(Main.otherPlayerUserName!=null)
         {
-            if(!OnlineGameController.isGameOver()){
+            if(!OnlineGameController.isGameOver()&&!OnlineGameController.gameSaved){
                 Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15+":true","Client");
             }
             Main.sendMessage("inviteResponse:" + Main.otherPlayerUserName + ":false","Client");
@@ -108,7 +108,7 @@ public class Main extends Application {
                     System.out.println("here in main thread");
                     String line = clientDataInputStream.readLine();
                     if (line != null) {
-                        System.out.println("line is -> " + line);
+//                        System.out.println("line is -> " + line);
                         ResponseHandler.handleResponse(line);
                         //                        ClientHandler.handleRequest(line);
                     }

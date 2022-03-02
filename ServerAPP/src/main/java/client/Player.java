@@ -1,13 +1,13 @@
 package client;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.PreparedStatement;
+//import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import database.*;
 
-import static java.sql.ResultSet.TYPE_SCROLL_SENSITIVE;
+//import static java.sql.ResultSet.TYPE_SCROLL_SENSITIVE;
 
 public class Player {
     private String userName;
@@ -25,24 +25,24 @@ public class Player {
         setPassword(playerPassword);
         getPlayerData();
     }
-    Player(String playerName, String playerPassword, int playerStatus){
-        setUserName(playerName);
-        setPassword(playerPassword);
-        setStatus(playerStatus);
-        getPlayerData();
-    }
-    Player(String playerName , String playerPassword, int playerStatus, int playerScore){
-        setUserName(playerName);
-        setPassword(playerPassword);
-        setScore(playerScore);
-        getPlayerData();
-    }
-    Player(Player copyPlayer){
-        setUserName(copyPlayer.getUserName());
-        setPassword(copyPlayer.getPassword());
-        setStatus(copyPlayer.getStatus());
-        setScore(copyPlayer.getScore());
-    }
+//    Player(String playerName, String playerPassword, int playerStatus){
+//        setUserName(playerName);
+//        setPassword(playerPassword);
+//        setStatus(playerStatus);
+//        getPlayerData();
+//    }
+//    Player(String playerName , String playerPassword, int playerStatus, int playerScore){
+//        setUserName(playerName);
+//        setPassword(playerPassword);
+//        setScore(playerScore);
+//        getPlayerData();
+//    }
+//    Player(Player copyPlayer){
+//        setUserName(copyPlayer.getUserName());
+//        setPassword(copyPlayer.getPassword());
+//        setStatus(copyPlayer.getStatus());
+//        setScore(copyPlayer.getScore());
+//    }
     private  Player(ResultSet playerData) {
         try {
             setUserName(playerData.getString(1));
@@ -85,9 +85,9 @@ public class Player {
     public String getUserName(){
         return userName;
     }
-    public String getPassword(){
-        return password;
-    }
+//    public String getPassword(){
+//        return password;
+//    }
     public int getStatus(){
         return status;
     }
@@ -142,10 +142,10 @@ public class Player {
         return false;
     }
 
-    public boolean addFriend(String friendName){
-        Player friend = new Player(friendName);
-        return isPlayer() && isLogin() && friend.isPlayer() && !checkFriendShip(friendName)  && Db.addFriend(userName,friendName);
-    }
+//    public boolean addFriend(String friendName){
+//        Player friend = new Player(friendName);
+//        return isPlayer() && isLogin() && friend.isPlayer() && !checkFriendShip(friendName)  && Db.addFriend(userName,friendName);
+//    }
 
     public boolean checkFriendShip(String friendName){
         Player friend = new Player(friendName);
@@ -176,7 +176,7 @@ public class Player {
         ArrayList<Player> players= new ArrayList<>();
         try{
             ResultSet playersData = Db.getPlayers();
-            if(playersData.first()) {
+            if(playersData!=null&&playersData.first()) {
                 Player onePlayer;
                 if(userName!=null&&userName.equals(playersData.getString(1))) ;
                 else {
@@ -197,29 +197,29 @@ public class Player {
         return players;
     }
 
-    public ArrayList<Player> getOnlinePlayers(){
-        ArrayList<Player> players= new ArrayList<>();
-        try{
-            ResultSet playersData = Db.getOnlinePlayers(userName);
-            if(playersData.first()) {
-                Player onePlayer = new Player(playersData);
-                players.add(onePlayer);
-                while (playersData.next()) {
-                    onePlayer = new Player(playersData);
-                    players.add(onePlayer);
-                }
-            }
-        }
-        catch (SQLException e){
-            System.out.println("inside player.getFriends function: " + e);
-        }
-        return players;
-    }
+//    public ArrayList<Player> getOnlinePlayers(){
+//        ArrayList<Player> players= new ArrayList<>();
+//        try{
+//            ResultSet playersData = Db.getOnlinePlayers(userName);
+//            if(playersData.first()) {
+//                Player onePlayer = new Player(playersData);
+//                players.add(onePlayer);
+//                while (playersData.next()) {
+//                    onePlayer = new Player(playersData);
+//                    players.add(onePlayer);
+//                }
+//            }
+//        }
+//        catch (SQLException e){
+//            System.out.println("inside player.getFriends function: " + e);
+//        }
+//        return players;
+//    }
     public boolean addScore(int points){
         return isPlayer()&&isLogin()&& Db.updateScore(points, userName);
     }
 
-    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
+//    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
     public boolean leaveGame(){return isLogin()&&Db.leaveGame(userName);}
     public boolean setInGame() {return isLogin()&&Db.setInGame(userName);}
 }

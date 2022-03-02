@@ -21,16 +21,14 @@ public class ClientHandler {
             case "inviteMessageRequest" -> handleInviteMessageRequest(responseParts);
             case "gamePlayResponse" -> handleGamePlay(responseParts);
             case "playAgainResponse" -> handlePlayAgain(responseParts);
-//            case "removeOtherPlayerResponse" -> handleRemoveOtherPlayer(responseParts);
             case "leaveGameResponse" -> removeOtherPlayer();
             case "updateScoreResponse" -> handleUpdateScore();
-//            case "logoutResponse" -> handleLogout(responseParts);
             default -> System.out.println("Unexpected value for request: " + String.join(":",responseParts));
         }
     }
     private static void handleUpdateScore(){
         Platform.runLater(() -> {
-            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
+//            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("opponent surrendered!!");
             alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
@@ -105,6 +103,7 @@ public class ClientHandler {
         if (responseParts.length > 1 && responseParts[1].equals("true")) {
             Main.changeSceneName("OnlineGameGui.fxml");
             new OnlineGameController('O', true);
+            Main.sendMessage("getGameRequest:"+Main.playerUserName+":"+Main.otherPlayerUserName, "Game");
         } else {
             Main.otherPlayerUserName = null;
             Main.sendMessage("leaveGameRequest", "Client");
@@ -131,6 +130,7 @@ public class ClientHandler {
 //                    LoadController.StopLoad=false;
                     Main.changeSceneName("OnlineGameGui.fxml");
                     new OnlineGameController('X', false);
+                    Main.sendMessage("getGameRequest:"+Main.playerUserName+":"+Main.otherPlayerUserName,"Game");
                 } else {
 //                    LoadController.StopLoad=false;
                     Main.sendMessage("leaveGameRequest:"+":"+responseParts[1], "Client");
@@ -144,6 +144,7 @@ public class ClientHandler {
     public static void handleGamePlay(String[] responseParts) {
 //        "gamePlayResponse:X:+0_1
         OnlineGameController.setMove(responseParts[2], responseParts[1].charAt(0));
+        OnlineGameController.setMyTurn(true);
     }
     public static void setTimeout(Runnable runnable, int delay, Alert alert) {
         new Thread(() -> {
@@ -166,19 +167,6 @@ public class ClientHandler {
         OnlineGameController.resetGame();
         OnlineGameController.setMyTurn(false);
     }
-
-//    private static void handleRemoveOtherPlayer(String[] responseParts) {
-//        System.out.println("handleRemoveOtherPlayer handler function: " + responseParts[0]);
-//        Platform.runLater(() -> {
-//            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
-//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//            alert.setTitle("opponent surrendered!!");
-//            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
-//            alert.setResizable(false);
-//            alert.showAndWait();
-//        });//replace it with show alert
-//        removeOtherPlayer();
-//    }
     private static void removeOtherPlayer(){
         Main.changeSceneName("ChooseGameGui.fxml");
         Main.otherPlayerUserName=null;
@@ -195,29 +183,17 @@ public class ClientHandler {
 //            alert.showAndWait();
 //        });
 //    }
-    private static void getAlertMessage(String responseParts,Alert alert){
-        switch (responseParts){
-            case "saveGame":
-                alert.setTitle("Save Game!!");
-                alert.setHeaderText("sorry but your opponent want to save this Game and continue in anther time");
-                break;
-            case "surrendered":
-                alert.setTitle("opponent surrendered!!");
-                alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
-                break;
-        }
-    }
 
-
-
-
-
-
-
-
-
-//    private static void handleLogout(String[] requestParts) {
-//        System.out.println("handleGameSave handler function: " + requestParts[0]);
-////        usedClientForHandler.sendResponseMessage("logoutResponse:"+usedClientForHandler.clientUser.playerDate.logout());
+//    private static void getAlertMessage(String responseParts,Alert alert){
+//        switch (responseParts){
+//            case "saveGame":
+//                alert.setTitle("Save Game!!");
+//                alert.setHeaderText("sorry but your opponent want to save this Game and continue in anther time");
+//                break;
+//            case "surrendered":
+//                alert.setTitle("opponent surrendered!!");
+//                alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
+//                break;
+//        }
 //    }
 }

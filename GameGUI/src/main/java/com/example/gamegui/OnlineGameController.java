@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,37 +23,41 @@ public class OnlineGameController implements Initializable {
     @FXML private Button button_2_0;
     @FXML private Button button_2_1;
     @FXML private Button button_2_2;
+//    @FXML private Button sendBtn;
+    @FXML private Button saveBtn;
     @FXML private Button playAgain;
     @FXML private ImageView backImage;
-    @FXML private Label txt;
-    private static char[][] board = new char[3][3];
-    static ArrayList<Button> buttons;
-//    static ArrayList<Text> userNames;
+    @FXML private Text PlayerX;
+    @FXML private Text PlayerO;
+//    @FXML private TextArea chatBox;
+//    @FXML private TextField messageField;
+    public OnlineGameController() {}
+    public static char[][] board = new char[3][3];
+    public static ArrayList<Button> buttons;
     private static boolean myTurn;
     private static char winner;
     public static void setMyTurn(boolean myTurn) {
         OnlineGameController.myTurn = myTurn;
     }
     private static boolean gameOver;
-    private static char playerShape;
+    public static char playerShape;
     private static int tilesLeft = 9;
     public static String title;
     public static String message;
+    public static boolean gameSaved;
     public static boolean isGameOver() {
         return gameOver;
     }
-
-    public OnlineGameController() {}
     public OnlineGameController(char playerShape, boolean Turn) {
         myTurn = Turn;
         setPlayerShape(playerShape);
     }
-    public static void setMove(String movePositions, char moveShape)
-    {
+    public static void setMove(String movePositions, char moveShape) {
         gameLogicFire(getButton("button_" + movePositions), moveShape);
-        myTurn = true;
+//        myTurn = true;
     }
-    public void setPlayerShape(char playerShape) {
+    public static boolean getMyTurn(){return myTurn;}
+    public static void setPlayerShape(char playerShape) {
         if (playerShape == 'O' || playerShape == 'X')
             OnlineGameController.playerShape = playerShape;
     }
@@ -70,13 +75,24 @@ public class OnlineGameController implements Initializable {
             button.setFocusTraversable(false);
         });
         gameOver=false;
-        playAgain.setCursor(Cursor.HAND);
-        backImage.setCursor(Cursor.HAND);
+        playAgain.setCursor(Cursor.HAND);  backImage.setCursor(Cursor.HAND);
+        playAgain.setCursor(Cursor.HAND);  backImage.setCursor(Cursor.HAND);
+        saveBtn.setCursor(Cursor.HAND);
+//        sendBtn.setCursor(Cursor.HAND);
+//        chatBox.setDisable(true);
+        if(playerShape=='X') {
+            PlayerX.setText(Main.playerUserName);
+            PlayerO.setText(Main.otherPlayerUserName);
+        }else {
+            PlayerO.setText(Main.playerUserName);
+            PlayerX.setText(Main.otherPlayerUserName);
+        }
     }
     public static void resetGame(){
         board=new char[3][3];
         tilesLeft=9;
         gameOver = false;
+        gameSaved=false;
     }
     public void playAgain(){
         if(gameOver){
@@ -130,6 +146,11 @@ public class OnlineGameController implements Initializable {
     }
     public void saveGame(){
         //save game implementation
+        if(!gameOver) {
+            gameSaved=true;
+            Main.sendMessage("createGameRequest:" + Main.otherPlayerUserName, "Game");
+            saveBtn.setDisable(true);
+        }
     }
 
     public static void checkIfGameIsOver() {
@@ -194,5 +215,13 @@ public class OnlineGameController implements Initializable {
         setMessageValue();
         showAlert(title, message);
     }
-
+//    public static void changeButtonText(String buttonName, String moveShape, boolean disable,boolean decreaseTilesLeft){
+//        Button playedButton = getButton(buttonName);
+//        Platform.runLater(() -> {
+//            playedButton.setText(moveShape);
+//            playedButton.setDisable(disable);
+//        });
+//        if(decreaseTilesLeft)
+//            OnlineGameController.tilesLeft--;
+//    }
 }

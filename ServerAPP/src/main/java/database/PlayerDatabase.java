@@ -176,20 +176,20 @@ public class PlayerDatabase extends Database{
         }
         return false;
     }
-    public boolean addFriend(String userName, String friendName) {
-        try {
-            PreparedStatement ps = con.prepareStatement("insert into friends values ( ? , ? ) ;");
-            ps.setString(1, userName);
-            ps.setString(2, friendName);
-            int i = ps.executeUpdate();
-            System.out.println("you add in friends table : " + i);
-            if (i > 0)
-                return true;
-        } catch (SQLException e) {
-            System.out.println("inside the addFriends : " + e);
-        }
-        return false;
-    }
+//    public boolean addFriend(String userName, String friendName) {
+//        try {
+//            PreparedStatement ps = con.prepareStatement("insert into friends values ( ? , ? ) ;");
+//            ps.setString(1, userName);
+//            ps.setString(2, friendName);
+//            int i = ps.executeUpdate();
+//            System.out.println("you add in friends table : " + i);
+//            if (i > 0)
+//                return true;
+//        } catch (SQLException e) {
+//            System.out.println("inside the addFriends : " + e);
+//        }
+//        return false;
+//    }
     public boolean checkFriendShip(String playerName, String friendName) {
         try {
             PreparedStatement ps = con.prepareStatement("select * from friends " +
@@ -235,20 +235,20 @@ public class PlayerDatabase extends Database{
         }
         return playersData;
     }
-    public ResultSet getOnlinePlayers(String userName) { //return null if DB not connect and list of players name ,status and score ordered by sore
-        System.out.println("isDbConnected()->" + isDbConnected());
-        ResultSet playersData = null;
-        if (isDbConnected()) {
-            try {
-                PreparedStatement ps = con.prepareStatement("select userName,status,score from players where status=1 and userName != ? order by score desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-                ps.setString(1, userName);
-                playersData = ps.executeQuery();
-            } catch (SQLException e) {
-                System.out.println("inside the getPlayers" + e);
-            }
-        }
-        return playersData;
-    }
+//    public ResultSet getOnlinePlayers(String userName) { //return null if DB not connect and list of players name ,status and score ordered by sore
+//        System.out.println("isDbConnected()->" + isDbConnected());
+//        ResultSet playersData = null;
+//        if (isDbConnected()) {
+//            try {
+//                PreparedStatement ps = con.prepareStatement("select userName,status,score from players where status=1 and userName != ? order by score desc;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+//                ps.setString(1, userName);
+//                playersData = ps.executeQuery();
+//            } catch (SQLException e) {
+//                System.out.println("inside the getPlayers" + e);
+//            }
+//        }
+//        return playersData;
+//    }
     public boolean updateScore(int points ,String userName) {
         System.out.println("isDbConnected()->" + isDbConnected());
         if (isDbConnected()) {
@@ -267,19 +267,19 @@ public class PlayerDatabase extends Database{
     }
 
 
-    public boolean inGame(String userName){
-        try {
-            PreparedStatement ps = con.prepareStatement("select status from players where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ps.setString(1, userName);
-            ResultSet userData = ps.executeQuery();
-            userData.first();
-            if (userData.getInt(1)==2)
-                return true;
-        } catch (SQLException e) {
-            System.out.println("inside the signUp function " + e);
-        }
-        return false;
-    }
+//    public boolean inGame(String userName){
+//        try {
+//            PreparedStatement ps = con.prepareStatement("select status from players where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+//            ps.setString(1, userName);
+//            ResultSet userData = ps.executeQuery();
+//            userData.first();
+//            if (userData.getInt(1)==2)
+//                return true;
+//        } catch (SQLException e) {
+//            System.out.println("inside the signUp function " + e);
+//        }
+//        return false;
+//    }
     public boolean leaveGame(String userName){
         try {
             PreparedStatement ps = con.prepareStatement("update players set status = 1 where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
