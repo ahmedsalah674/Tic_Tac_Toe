@@ -52,15 +52,15 @@ DROP TABLE IF EXISTS `games`;
 CREATE TABLE `games` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `playerX` varchar(50) NOT NULL,
-  `playerY` varchar(50) NOT NULL,
-  `status` int DEFAULT '0',
+  `playerO` varchar(50) NOT NULL,
+  `lastPlayer` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
   KEY `playerXFK` (`playerX`),
-  KEY `playerYFK` (`playerY`),
-  CONSTRAINT `playerXFK` FOREIGN KEY (`playerX`) REFERENCES `players` (`userName`),
-  CONSTRAINT `playerYFK` FOREIGN KEY (`playerY`) REFERENCES `players` (`userName`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `playerOFK` (`playerO`),
+  CONSTRAINT `playerOFK` FOREIGN KEY (`playerO`) REFERENCES `players` (`userName`),
+  CONSTRAINT `playerXFK` FOREIGN KEY (`playerX`) REFERENCES `players` (`userName`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,6 @@ CREATE TABLE `games` (
 
 LOCK TABLES `games` WRITE;
 /*!40000 ALTER TABLE `games` DISABLE KEYS */;
-INSERT INTO `games` VALUES (1,'ahmed','salah',0),(2,'ahmed','ahmedsalah',0);
 /*!40000 ALTER TABLE `games` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,9 +84,9 @@ CREATE TABLE `gamesMoves` (
   `gameID` bigint unsigned NOT NULL,
   `xCoordinate` tinyint NOT NULL,
   `yCoordinate` tinyint NOT NULL,
-  `gameSahpe` enum('X','Y') NOT NULL,
+  `moveShape` enum('X','O') NOT NULL,
   KEY `gameID` (`gameID`),
-  CONSTRAINT `gamesMoves_ibfk_1` FOREIGN KEY (`gameID`) REFERENCES `games` (`id`)
+  CONSTRAINT `gameIDfk` FOREIGN KEY (`gameID`) REFERENCES `games` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,7 +121,7 @@ CREATE TABLE `players` (
 
 LOCK TABLES `players` WRITE;
 /*!40000 ALTER TABLE `players` DISABLE KEYS */;
-INSERT INTO `players` VALUES ('ahmed','827ccb0eea8a706c4c34a16891f84e7b',0,130),('ahmeds','827ccb0eea8a706c4c34a16891f84e7b',0,0),('ahmedsalah','827ccb0eea8a706c4c34a16891f84e7b',0,45),('ahmedss','827ccb0eea8a706c4c34a16891f84e7b',0,0),('mohamedfarid','827ccb0eea8a706c4c34a16891f84e7b',0,0),('omarhussien','827ccb0eea8a706c4c34a16891f84e7b',0,0),('salah','827ccb0eea8a706c4c34a16891f84e7b',0,0),('testPlayer','827ccb0eea8a706c4c34a16891f84e7b',0,0),('yosrahesham','827ccb0eea8a706c4c34a16891f84e7b',0,0),('youssefabdelnaser','827ccb0eea8a706c4c34a16891f84e7b',0,0),('youssefhamada','827ccb0eea8a706c4c34a16891f84e7b',0,0);
+INSERT INTO `players` VALUES ('aasdasdsadas','827ccb0eea8a706c4c34a16891f84e7b',0,0),('ahmed','827ccb0eea8a706c4c34a16891f84e7b',0,2295),('ahmeds','827ccb0eea8a706c4c34a16891f84e7b',0,2120),('ahmedsalah','827ccb0eea8a706c4c34a16891f84e7b',0,135),('ahmedss','827ccb0eea8a706c4c34a16891f84e7b',0,300),('mohamedfarid','827ccb0eea8a706c4c34a16891f84e7b',0,0),('omarhussien','827ccb0eea8a706c4c34a16891f84e7b',0,0),('sadsdasdas','5eac43aceba42c8757b54003a58277b5',0,0),('salah','827ccb0eea8a706c4c34a16891f84e7b',0,720),('testPlayer','827ccb0eea8a706c4c34a16891f84e7b',0,0),('yosrahesham','827ccb0eea8a706c4c34a16891f84e7b',0,0),('youssefabdelnaser','827ccb0eea8a706c4c34a16891f84e7b',0,0),('youssefhamada','827ccb0eea8a706c4c34a16891f84e7b',0,0);
 /*!40000 ALTER TABLE `players` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -135,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-02-25  0:59:12
+-- Dump completed on 2022-03-02  5:45:41

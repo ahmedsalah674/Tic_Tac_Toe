@@ -21,7 +21,7 @@ public class Client extends Thread {
             printStream = new PrintStream(ClientSocket.getOutputStream());
             clientUser = newUser;
             start();
-            System.out.println("i'm here in Client constructor");
+//            System.out.println("i'm here in Client constructor");
         } catch (IOException e) {
             System.out.println("inside Client constructor: " + e);
         }
@@ -40,7 +40,7 @@ public class Client extends Thread {
     public void run() {
         while (true) {
             try {
-                System.out.println("i'm here in com.example.serverapp.client run()");
+//                System.out.println("i'm here in com.example.serverapp.client run()");
                 String request = dataInputStream.readLine();
                 if (request != null)
                         RequestHandler.handleRequest(request, this);

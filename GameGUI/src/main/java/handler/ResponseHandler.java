@@ -12,6 +12,7 @@ public class ResponseHandler {
             case "Client" -> ClientHandler.handleRequest(responseArray);
             case "Server" -> ServerHandler.handleRequest(responseArray);
             case "Game"   -> GameHandler.handleResponse(responseArray);
+            case "Chat"   -> ChatHandler.handleResponse(responseArray);
             default -> System.out.println("Unexpected value for request: " + response);
         }
     }

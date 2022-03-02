@@ -7,7 +7,7 @@
      -fx-background-color: #8B0000;
      -fx-text-background-color: white;
 }
-table-row-cell: hover {
+table-row-cell:hover {
    -fx-text-background-color: gold;
    -fx-text-fill: gold;
    -fx-background-color: gold;

@@ -147,10 +147,10 @@ public class Player {
 //        return isPlayer() && isLogin() && friend.isPlayer() && !checkFriendShip(friendName)  && Db.addFriend(userName,friendName);
 //    }
 
-    public boolean checkFriendShip(String friendName){
-        Player friend = new Player(friendName);
-        return isPlayer() && friend.isPlayer() && Db.checkFriendShip(userName , friendName);
-    }
+//    public boolean checkFriendShip(String friendName){
+//        Player friend = new Player(friendName);
+//        return isPlayer() && friend.isPlayer() && Db.checkFriendShip(userName , friendName);
+//    }
     public ArrayList<Player> getFriends(){
         ArrayList<Player> friends= new ArrayList<>();
         if (isPlayer()) {

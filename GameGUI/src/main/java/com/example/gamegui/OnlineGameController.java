@@ -5,12 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OnlineGameController implements Initializable {
@@ -23,17 +25,18 @@ public class OnlineGameController implements Initializable {
     @FXML private Button button_2_0;
     @FXML private Button button_2_1;
     @FXML private Button button_2_2;
-//    @FXML private Button sendBtn;
+    @FXML private Button sendBtn;
     @FXML private Button saveBtn;
     @FXML private Button playAgain;
     @FXML private ImageView backImage;
     @FXML private Text PlayerX;
     @FXML private Text PlayerO;
-//    @FXML private TextArea chatBox;
-//    @FXML private TextField messageField;
+    @FXML private TextArea chatBox;
+    @FXML private TextField messageField;
     public OnlineGameController() {}
     public static char[][] board = new char[3][3];
     public static ArrayList<Button> buttons;
+    public static ArrayList<TextArea> chat;
     private static boolean myTurn;
     private static char winner;
     public static void setMyTurn(boolean myTurn) {
@@ -64,7 +67,7 @@ public class OnlineGameController implements Initializable {
     public void back(){
         Main.leaveGame();
     }
-    public static void changeGameOver(boolean value){ gameOver=value; }
+//    public static void changeGameOver(boolean value){ gameOver=value; }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         buttons = new ArrayList<>(Arrays.asList(button_0_0, button_0_1, button_0_2, button_1_0,
@@ -74,12 +77,15 @@ public class OnlineGameController implements Initializable {
             button.setCursor(Cursor.HAND);
             button.setFocusTraversable(false);
         });
+        chat=new ArrayList<>(List.of(chatBox));
         gameOver=false;
-        playAgain.setCursor(Cursor.HAND);  backImage.setCursor(Cursor.HAND);
-        playAgain.setCursor(Cursor.HAND);  backImage.setCursor(Cursor.HAND);
+        chatBox.setEditable(false);
+        sendBtn.setDefaultButton(true);
+        chatBox.setStyle("-fx-padding: 2px;fx-font-size:14px; -fx-background-radius: 10;");
         saveBtn.setCursor(Cursor.HAND);
-//        sendBtn.setCursor(Cursor.HAND);
-//        chatBox.setDisable(true);
+        sendBtn.setCursor(Cursor.HAND);
+//        playAgain.setCursor(Cursor.HAND);
+        backImage.setCursor(Cursor.HAND);
         if(playerShape=='X') {
             PlayerX.setText(Main.playerUserName);
             PlayerO.setText(Main.otherPlayerUserName);
@@ -197,7 +203,7 @@ public class OnlineGameController implements Initializable {
         });
     }
     public static void setMessageValue(){
-        if(gameOver==true){
+        if(gameOver){
             if(playerShape==winner) {
                 title = "We have a Winner here:\" ";
                 message = "Wonderful "+Main.playerUserName+" You Win this game GG :) ";
@@ -215,13 +221,17 @@ public class OnlineGameController implements Initializable {
         setMessageValue();
         showAlert(title, message);
     }
-//    public static void changeButtonText(String buttonName, String moveShape, boolean disable,boolean decreaseTilesLeft){
-//        Button playedButton = getButton(buttonName);
-//        Platform.runLater(() -> {
-//            playedButton.setText(moveShape);
-//            playedButton.setDisable(disable);
-//        });
-//        if(decreaseTilesLeft)
-//            OnlineGameController.tilesLeft--;
-//    }
+    public static void addToChatBox(String message){
+        chat.get(0).appendText(message);
+    }
+
+    public void sendMessage(){
+        String message=messageField.getText();
+        if(!message.isEmpty()) {
+            addToChatBox("You: "+messageField.getText()+"\n");
+            messageField.setText("");
+            Main.sendMessage("sendMessageRequest:"
+                    +Main.otherPlayerUserName+":"+message,"Chat");
+        }
+    }
 }

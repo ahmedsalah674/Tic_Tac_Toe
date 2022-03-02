@@ -15,6 +15,7 @@ public class RequestHandler {
                 case "Server"->ServerHandler.handleRequest(requestHandle, clientInstance);
                 case "Client"->ClientHandler.handleRequest(requestHandle, clientInstance);
                 case "Game" -> GameHandler.handleRequest(requestHandle,clientInstance);
+                case "Chat" -> ChatHandler.handleRequest(requestHandle,clientInstance);
                 default -> System.out.println("Unexpected value in RequestHandler-handleRequest(): " + requestParts[0]);
             }
         }
