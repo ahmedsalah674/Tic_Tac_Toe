@@ -1,25 +1,10 @@
 package com.example.gamegui;
-import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.File;
 import java.net.URL;
 import java.util.*;
 
@@ -388,31 +373,31 @@ public class GameController implements Initializable {
         int[] bestmove = {x,y};
         return bestmove;
     }
-    public void printArray(int arr[][]){
-        for(int i=0; i<arr.length; i++)
-        {
-            for(int j=0; j<arr[i].length; j++)
-                System.out.println(arr[i][j]);
-        }
-    }
-    public void showVideoAlert(){
-        StackPane secondaryLayout2 = new StackPane();
-////        Media media = new Media(new File("src/main/resources/com/example/gamegui/videoplayback.flv").toURI().toString());
-//        Media media = new Media("https://doc-00-6g-docs.googleusercontent.com/docs/securesc/9prknvmcj9gud36ias9pvl2lhiqtn8uf/q5uprmpeji571dq7p6dbl4986fol3tm7/1646232900000/07243282101955004259/07243282101955004259/1SJ93esbbc_USofGV4CclGaOrI14-561c?e=download&ax=ACxEAsa4Mce8nTVX9tFsuDnvc5NfG1utyxYT-X-mgTGf_avCGwp7F9HKNMrrDDfDNPtO8aAGJ3L8stroFgeMUPMFMWUfXznGK2t2-0cEBomXF0o3jjmhAN2KgmWf6Z8QW-cZsDIq2nkvCdKJDf71jUYEzm3ajPnCUE1u2yjkmWzCYgKj_H87l8PhEl_Hk_xHHaQidO7FRV8tT31qmzJJyKg81QPKER8htxuACamyWyvNqLdg0I3sW_aWK7V2r6eJPqUeL2nqe0S3mPw9s-BuzLQDng0IlUdiUnIYJ0eLzWdBQxx-o-gxCQK2LRSGpd2_3-BDDfvXpKbtsu4F9t7s63oAOeTKIYddHIgqhXDGcGHLs4sMY0ggtQ-lbVrYLH8RmAJy8RixeL2-4tREWyfnBAWortS1yPNF5zl2K2VwmnBHVs88A7MoAyEWXYP0bATywD5O-9Be0wLRtUC5MXl3sffEHXvu4bnHkPJER7AYd0ZSjslJzL11WarD_6zbW1pR7bYihVkFLI0WEMI-lZm2lA75c8VhMZd0zm_9TrZZpOIwn-IG5_C5tnO7bV5A9N1-9bUktq19Bbaj2_HCFFcwO5Bw8n4svvzZJlEFj2eWg6tQXycOmVMbN38PlQ8kZrV_9SprVOgjGJsP7qWKrvTv4TOARDrKmGb0aKuFYX_JLgly&authuser=0&nonce=9if50m0mqgg3u&user=07243282101955004259&hash=e391mlep2huf97v0rri876jm4k6437vo");
-//        MediaPlayer videoForWinner = new MediaPlayer(media);
-        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("loser.mp4").toExternalForm()));
-        MediaView mediaView2 = new MediaView(videoForWinner);
-        secondaryLayout2.getChildren().addAll(mediaView2);
-        Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
-        Stage secondStage2 = new Stage();
-        secondStage2.setResizable(false);
-        secondStage2.setScene(secondScene2);
-        secondStage2.show();
-        videoForWinner.play();
-        PauseTransition delay = new PauseTransition(Duration.seconds(10));
-        delay.setOnFinished( event -> secondStage2.close() );
-        delay.play();
-    }
+//    public void printArray(int arr[][]){
+//        for(int i=0; i<arr.length; i++)
+//        {
+//            for(int j=0; j<arr[i].length; j++)
+//                System.out.println(arr[i][j]);
+//        }
+//    }
+//    public void showVideoAlert(){
+//        StackPane secondaryLayout2 = new StackPane();
+//////        Media media = new Media(new File("src/main/resources/com/example/gamegui/videoplayback.flv").toURI().toString());
+////        Media media = new Media("https://doc-00-6g-docs.googleusercontent.com/docs/securesc/9prknvmcj9gud36ias9pvl2lhiqtn8uf/q5uprmpeji571dq7p6dbl4986fol3tm7/1646232900000/07243282101955004259/07243282101955004259/1SJ93esbbc_USofGV4CclGaOrI14-561c?e=download&ax=ACxEAsa4Mce8nTVX9tFsuDnvc5NfG1utyxYT-X-mgTGf_avCGwp7F9HKNMrrDDfDNPtO8aAGJ3L8stroFgeMUPMFMWUfXznGK2t2-0cEBomXF0o3jjmhAN2KgmWf6Z8QW-cZsDIq2nkvCdKJDf71jUYEzm3ajPnCUE1u2yjkmWzCYgKj_H87l8PhEl_Hk_xHHaQidO7FRV8tT31qmzJJyKg81QPKER8htxuACamyWyvNqLdg0I3sW_aWK7V2r6eJPqUeL2nqe0S3mPw9s-BuzLQDng0IlUdiUnIYJ0eLzWdBQxx-o-gxCQK2LRSGpd2_3-BDDfvXpKbtsu4F9t7s63oAOeTKIYddHIgqhXDGcGHLs4sMY0ggtQ-lbVrYLH8RmAJy8RixeL2-4tREWyfnBAWortS1yPNF5zl2K2VwmnBHVs88A7MoAyEWXYP0bATywD5O-9Be0wLRtUC5MXl3sffEHXvu4bnHkPJER7AYd0ZSjslJzL11WarD_6zbW1pR7bYihVkFLI0WEMI-lZm2lA75c8VhMZd0zm_9TrZZpOIwn-IG5_C5tnO7bV5A9N1-9bUktq19Bbaj2_HCFFcwO5Bw8n4svvzZJlEFj2eWg6tQXycOmVMbN38PlQ8kZrV_9SprVOgjGJsP7qWKrvTv4TOARDrKmGb0aKuFYX_JLgly&authuser=0&nonce=9if50m0mqgg3u&user=07243282101955004259&hash=e391mlep2huf97v0rri876jm4k6437vo");
+////        MediaPlayer videoForWinner = new MediaPlayer(media);
+//        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource("loser.mp4").toExternalForm()));
+//        MediaView mediaView2 = new MediaView(videoForWinner);
+//        secondaryLayout2.getChildren().addAll(mediaView2);
+//        Scene secondScene2 = new Scene(secondaryLayout2, 420, 400);
+//        Stage secondStage2 = new Stage();
+//        secondStage2.setResizable(false);
+//        secondStage2.setScene(secondScene2);
+//        secondStage2.show();
+//        videoForWinner.play();
+//        PauseTransition delay = new PauseTransition(Duration.seconds(10));
+//        delay.setOnFinished( event -> secondStage2.close() );
+//        delay.play();
+//    }
 //        String path = "/home/ahmedsalah/-----------------------/lastUpdatedVersion/GameGUI/playAgain.mp4";
 //        MediaPlayer videoForWinner = new MediaPlayer(new Media(getClass().getResource(path).toExternalForm()));
 ////        Media media = new Media(new File(path).toURI().toString());

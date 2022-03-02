@@ -37,21 +37,21 @@ public class ServerController  implements Initializable {
             score=player.getScore();
         }
 
-//        public String getUserName() {
-//            return userName;
-//        }
-//
-//        public String getStatus() {
-//            return status;
-//        }
-//
-//        public int getScore() {
-//            return score;
-//        }
-//
-//        public void setScore(int score) {
-//            this.score = score;
-//        }
+        public String getUserName() {
+            return userName;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
 
         public void setStatus(int status) {
             switch (status) {
