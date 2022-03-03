@@ -4,7 +4,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Line;
 import java.net.URL;
 import java.util.*;
 
@@ -22,8 +25,13 @@ public class GameController implements Initializable {
     @FXML private Button resetbtn;
     @FXML private Label txt;
     @FXML private ImageView backImage;
+    @FXML private AnchorPane rootPane;
+    @FXML private Line line1;
+    @FXML private Line line2;
+    @FXML private Line line3;
+    @FXML private Line line4;
     public static int difficulty = 0;
-    private int [][]board = new int[3][3];
+    private int [][]board ;
     private int movesLeft = 9;
     private  boolean gameOver = false;
     ArrayList<Button> buttons;
@@ -31,8 +39,16 @@ public class GameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 //        System.out.println(difficulty);
+        board = new int[3][3];
+        BackgroundImage myBI= new BackgroundImage(new Image("https://cdn.pixabay.com/photo/2015/11/15/18/42/white-1044659_960_720.jpg",600,400,false,true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        rootPane.setBackground(new Background(myBI));
+        ArrayList<Line> lines = new ArrayList<>(Arrays.asList(line1, line2, line3, line4));
+        lines.forEach(line -> line.setStyle("-fx-stroke: #a41f1f"));
         buttons = new ArrayList<>(Arrays.asList(button1,button2,button3,button4,button5,button6,button7,button8,button9));
         buttons.forEach(button ->{
+            button.setStyle("-fx-background-color: transparent;");
             setupCursor(button);
             setupButton(button);
             button.setFocusTraversable(false);
@@ -44,6 +60,10 @@ public class GameController implements Initializable {
     }
     @FXML
     void reset() {
+        BackgroundImage myBI= new BackgroundImage(new Image("https://cdn.pixabay.com/photo/2015/11/15/18/42/white-1044659_960_720.jpg",600,400,false,true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        rootPane.setBackground(new Background(myBI));
         movesLeft = 9;
         gameOver = false;
         for (int[] row: board)
@@ -106,47 +126,47 @@ public class GameController implements Initializable {
     public void displayAiMove(int x, int y){
         if(x == 0 && y == 0)
         {
-            button1.setStyle("-fx-text-fill: red");
+            button1.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button1.setText("X");
             button1.setDisable(true);
         }
         else if(x == 0 && y == 1){
-            button2.setStyle("-fx-text-fill: red");
+            button2.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button2.setText("X");
             button2.setDisable(true);
         }
         else if(x == 0 && y == 2){
-            button3.setStyle("-fx-text-fill: red");
+            button3.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button3.setText("X");
             button3.setDisable(true);
         }
         else if(x == 1 && y == 0){
-            button4.setStyle("-fx-text-fill: red");
+            button4.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button4.setText("X");
             button4.setDisable(true);
         }
         else if(x == 1 && y == 1){
-            button5.setStyle("-fx-text-fill: red");
+            button5.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button5.setText("X");
             button5.setDisable(true);
         }
         else if(x == 1 && y == 2){
-            button6.setStyle("-fx-text-fill: red");
+            button6.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button6.setText("X");
             button6.setDisable(true);
         }
         else if(x == 2 && y == 0){
-            button7.setStyle("-fx-text-fill: red");
+            button7.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button7.setText("X");
             button7.setDisable(true);
         }
         else if(x == 2 && y == 1){
-            button8.setStyle("-fx-text-fill: red");
+            button8.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button8.setText("X");
             button8.setDisable(true);
         }
         else if(x == 2 && y == 2){
-            button9.setStyle("-fx-text-fill: red");
+            button9.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             button9.setText("X");
             button9.setDisable(true);
         }
@@ -179,14 +199,14 @@ public class GameController implements Initializable {
             };
             //X winner
             if (line.equals("XXX")) {
-                txt.setText("X won!");
+//                txt.setText("X won!");
                 buttons.forEach(button -> button.setDisable(true));
                 gameOver = true;
                 Main.changeSceneName("loser.fxml");
             }
             //O winner
             else if (line.equals("OOO")) {
-                txt.setText("O won!");
+//                txt.setText("O won!");
                 buttons.forEach(button -> button.setDisable(true));
                 gameOver = true;
                 Main.changeSceneName("winner.fxml");
@@ -295,7 +315,7 @@ public class GameController implements Initializable {
                         // Call minimax recursively and choose
                         // the maximum value
                         best = Math.max(best, minimax(board,
-                                depth + 1, !isMax));
+                                depth + 1, false));
 
                         // Undo the move
                         board[i][j] = 0;
@@ -322,7 +342,7 @@ public class GameController implements Initializable {
                         // Call minimax recursively and choose
                         // the minimum value
                         best = Math.min(best, minimax(board,
-                                depth + 1, !isMax));
+                                depth + 1, true));
                         // Undo the move
                         board[i][j] = 0;
                     }
@@ -370,8 +390,7 @@ public class GameController implements Initializable {
             }
         }
         board[x][y] = 2;
-        int[] bestmove = {x,y};
-        return bestmove;
+        return new int[]{x,y};
     }
 //    public void printArray(int arr[][]){
 //        for(int i=0; i<arr.length; i++)

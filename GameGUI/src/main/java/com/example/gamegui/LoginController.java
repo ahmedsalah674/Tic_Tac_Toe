@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,11 +32,11 @@ public class LoginController implements Initializable {
         return !user_name.getText().isEmpty() && !user_pass.getText().isEmpty();
     }
 
-    private void showAlert(Alert.AlertType type, String title, String header) {
+    private void showAlert(String header) {
 //        "information", "warning", "error", "confirmation"
         Platform.runLater(() -> {
-            Alert alert = new Alert(type);
-            alert.setTitle(title);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
             alert.setResizable(false);
             alert.setHeaderText(header);
             alert.showAndWait();
@@ -49,16 +48,16 @@ public class LoginController implements Initializable {
             Main.sendMessage("loginRequest:" + user_name.getText() + ":" + user_pass.getText(), "Client");
 //            System.out.println("login in loginController");
         } else {
-            showAlert(Alert.AlertType.ERROR, "Login ERROR", "Please Fill All Fields Then Press Login or Enter");
+            showAlert("Please Fill All Fields Then Press Login or Enter");
         }
     }
 
-    public void signup() throws IOException {
+    public void signup() {
 //        System.out.println("signup in loginController");
         if (checkField()) {
             Main.sendMessage("signUpRequest:" + user_name.getText() + ":" + user_pass.getText(), "Client");
         } else {
-            showAlert(Alert.AlertType.ERROR, "Login ERROR", "Please Fill All Fields Then Press Signup");
+            showAlert("Please Fill All Fields Then Press Signup");
         }
         //        if(Main.playerUserName!=null)
 //            Main.s.setTitle(Main.playerUserName);

@@ -92,8 +92,9 @@ public class PlayerDatabase extends Database{
         try {
             PreparedStatement ps = con.prepareStatement("update players set status =0 where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             ps.setString(1, userName);
+//            int logoutNumber=;
             if (ps.executeUpdate() > 0) {
-                System.out.println("logout  : " + ps.executeUpdate());
+//                System.out.println("logout  : " + ps.executeUpdate());
                 return true;
             }
         } catch (SQLException e) {
@@ -176,9 +177,17 @@ public class PlayerDatabase extends Database{
 //    }
     public boolean updateScore(int points ,String userName) {
 //        System.out.println("isDbConnected()->" + isDbConnected());
+        return updatePlayerScore(points, userName,'+');
+    }
+    public boolean subScore(int points ,String userName) {
+//        System.out.println("isDbConnected()->" + isDbConnected());
+        return updatePlayerScore(points, userName,'-');
+    }
+
+    private boolean updatePlayerScore(int points, String userName,char operator) {
         if (isDbConnected()) {
             try {
-                PreparedStatement ps = con.prepareStatement("update players set score=score+? where userName = ? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                PreparedStatement ps = con.prepareStatement("update players set score=score"+operator+"? where userName = ? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 ps.setInt(1, points);
                 ps.setString(2, userName);
                 int playersUpdated =ps.executeUpdate();
@@ -192,7 +201,7 @@ public class PlayerDatabase extends Database{
     }
 
 
-//    public boolean inGame(String userName){
+    //    public boolean inGame(String userName){
 //        try {
 //            PreparedStatement ps = con.prepareStatement("select status from players where userName =? ;", TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 //            ps.setString(1, userName);

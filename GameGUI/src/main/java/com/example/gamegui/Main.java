@@ -26,7 +26,7 @@ public class Main extends Application {
             public void run() {
                 try {
 //                    System.err.println(sceneName);
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)));
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("fxml/"+sceneName)));
                     Main.s.setScene(scene);
                 } catch (IOException e){
                     e.printStackTrace();
@@ -34,14 +34,14 @@ public class Main extends Application {
             }
         });
     }
-    public static boolean sendMessage(String message,String responseType) {
+    public static void sendMessage(String message,String responseType) {
         if (clientPrintStream != null) {
             clientPrintStream.println(responseType + ":" + message);
-            return true;
+//            return true;
         }
         else
             System.out.println("inside Main-sendMessage() clientPrintStream is null");
-        return false;
+//        return false;
     }
 
     @Override
@@ -49,9 +49,9 @@ public class Main extends Application {
         try {
             Parent root;
             if(connectToServer())
-                root = FXMLLoader.load(getClass().getResource("LoginGui.fxml"));
+                root = FXMLLoader.load(getClass().getResource("fxml/LoginGui.fxml"));
             else
-                root = FXMLLoader.load(getClass().getResource("failed.fxml"));
+                root = FXMLLoader.load(getClass().getResource("fxml/failed.fxml"));
             Scene scene = new Scene(root);
             s = primaryStage;
             s.setScene(scene);
@@ -68,12 +68,13 @@ public class Main extends Application {
     public static void leaveGame(){
         if(Main.otherPlayerUserName!=null)
         {
-            if(!OnlineGameController.isGameOver()&&!OnlineGameController.gameSaved){
-                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15+":true","Client");
-            }
+//            boolean update;
             Main.sendMessage("inviteResponse:" + Main.otherPlayerUserName + ":false","Client");
             Main.sendMessage("leaveGameRequest:"+Main.otherPlayerUserName,"Client");
             Main.changeSceneName("ChooseGameGui.fxml");
+            if(!OnlineGameController.isGameOver()&&!OnlineGameController.gameSaved){
+                Main.sendMessage("updateScoreRequest:"+Main.otherPlayerUserName+":"+ 15+":true:"+Main.playerUserName,"Client");
+            }
             Main.otherPlayerUserName=null;
             OnlineGameController.resetGame();
         }
@@ -93,7 +94,7 @@ public class Main extends Application {
 
                     MainThread.stop();
                 } catch (Exception e){
-                    System.out.println(e);
+                    System.out.println("Main-stop() "+e);
                 }
             }
         }catch (IOException e){
@@ -103,18 +104,19 @@ public class Main extends Application {
 
     public static class mainThread extends Thread {
         public void run() {
-            try {
-                while (true) {
+                while (!clientSocket.isClosed()) {
+                    try {
 //                    System.out.println("here in main thread");
+//                    System.out.println();
                     String line = clientDataInputStream.readLine();
                     if (line != null) {
 //                        System.out.println("line is -> " + line);
                         ResponseHandler.handleResponse(line);
                         //                        ClientHandler.handleRequest(line);
                     }
-                }
-            } catch (IOException ex) {
-                System.out.println("server not run ");
+                }catch (IOException ex) {
+                        System.out.println("Socket closed ");
+                    }
             }
         }
     }
@@ -135,7 +137,7 @@ public class Main extends Application {
             return true;
         } catch (IOException e) {
 //            System.out.println("clientSocket");
-            System.out.println("server is off");
+//            System.out.println("server is off");
             return false;
         }
     }

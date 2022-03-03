@@ -13,7 +13,12 @@ public class Database {
     protected String USER;
     protected String PASS;
     protected String DB_URL;
-    protected Connection con;
+    protected static Connection con;
+//    protected String DRIVER="com.mysql.cj.jdbc.Driver";
+//    protected String USER="root";
+//    protected String PASS="258307aA";
+//    protected String DB_URL="jdbc:mysql://localhost:3306/tic_tac";
+//    protected Connection con;
 
     public Database() {
         Hashtable<String, String> databaseInfo = readDatabaseData();
@@ -51,8 +56,10 @@ public class Database {
 
     public boolean connect() {
         try {
-            Class.forName(DRIVER);
-            con = DriverManager.getConnection(DB_URL, USER, PASS);
+            if(!isDbConnected()){
+                Class.forName(DRIVER);
+                con  = DriverManager.getConnection(DB_URL, USER, PASS);
+            }
             return true;
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println("INSIDE The connect function" + e);

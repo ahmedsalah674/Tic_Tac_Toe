@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import server.Server;
 
 import java.net.Socket;
 import java.net.URL;
@@ -107,7 +108,8 @@ public class ServerController  implements Initializable {
             StartServerBtn.setText("Running");
             StartServerBtn.setStyle("-fx-background-color: green; -fx-text-fill: white");
             Main.running=true;
-            RequestHandler.handleRequest("Server:unlockedAll", new Client(new User(new Socket())));
+            if(!Server.clientVector.isEmpty())
+                RequestHandler.handleRequest("Server:unlockedAll", new Client(new User(new Socket())));
         }
         else{
             {
@@ -116,7 +118,8 @@ public class ServerController  implements Initializable {
                 StartServerBtn.setText("Start Server");
                 StartServerBtn.setStyle("-fx-background-color: red; -fx-text-fill: white");
                 Main.running=false;
-                RequestHandler.handleRequest("Server:lockedAll", new Client(new User(new Socket())));
+                if(!Server.clientVector.isEmpty())
+                    RequestHandler.handleRequest("Server:lockedAll", new Client(new User(new Socket())));
             }
         }
     }

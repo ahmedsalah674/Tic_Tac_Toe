@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -33,9 +34,10 @@ public class OnlineGameController implements Initializable {
     @FXML private Text PlayerO;
     @FXML private TextArea chatBox;
     @FXML private TextField messageField;
+    @FXML private AnchorPane rootPane;
     public OnlineGameController() {}
     public static char[][] board = new char[3][3];
-        public static ArrayList<Button> buttons;
+    public static ArrayList<Button> buttons;
     public static ArrayList<TextArea> chat;
     private static boolean myTurn;
     public static char winner;
@@ -70,9 +72,14 @@ public class OnlineGameController implements Initializable {
 //    public static void changeGameOver(boolean value){ gameOver=value; }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        BackgroundImage myBI= new BackgroundImage(new Image("https://cdn.pixabay.com/photo/2015/11/15/18/42/white-1044659_960_720.jpg",600,600,false,true),
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        rootPane.setBackground(new Background(myBI));
         buttons = new ArrayList<>(Arrays.asList(button_0_0, button_0_1, button_0_2, button_1_0,
                 button_1_1, button_1_2, button_2_0, button_2_1, button_2_2));
         buttons.forEach(button -> {
+            button.setStyle("-fx-background-color: transparent;");
             setupButton(button);
             button.setCursor(Cursor.HAND);
             button.setFocusTraversable(false);
@@ -124,6 +131,10 @@ public class OnlineGameController implements Initializable {
     public static void gameLogicFire(Button playedButton, char gameShape) {
         tilesLeft--;
         Platform.runLater(() -> {
+            if(gameShape == 'O')
+                playedButton.setStyle("-fx-text-fill: black; -fx-background-color: transparent;");
+            else
+                playedButton.setStyle("-fx-text-fill: red; -fx-background-color: transparent;");
             playedButton.setText(String.valueOf(gameShape));
             playedButton.setDisable(true);
         });

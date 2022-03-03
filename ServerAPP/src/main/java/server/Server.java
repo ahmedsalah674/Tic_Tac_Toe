@@ -32,17 +32,19 @@ public class Server extends Thread {
     }
     @Override
     public void run() {
-        try {
-            while (true) {
+            while (!serverSocket.isClosed()) {
+                try {
 //                System.out.println("i'm still here");
-                Socket newClientSocket = serverSocket.accept();
-                User newUser = new User(newClientSocket);
-                Client newClient = new Client(newUser);
-                clientVector.add(newClient);
+//                if(){
+                    Socket newClientSocket = serverSocket.accept();
+                    User newUser = new User(newClientSocket);
+                    Client newClient = new Client(newUser);
+                    clientVector.add(newClient);
+//                }
+            }catch (Exception e) {
+                    System.out.println("inside run() Server function " + e);
+                }
             }
-        } catch (Exception e) {
-            System.out.println("inside run() Server function" + e);
-        }
     }
     public static void sendMessageForAll(String message,String messageType){
         for (Client clientCounter:clientVector) {

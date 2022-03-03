@@ -133,13 +133,11 @@ public class Player {
         return false;
     }
 
-    public boolean logout()
+    public void logout()
     {
         if(isPlayer() && isLogin() && Db.logout(userName)) {
             status =0;
-            return true;
         }
-        return false;
     }
 
 //    public boolean addFriend(String friendName){
@@ -178,8 +176,8 @@ public class Player {
             ResultSet playersData = Db.getPlayers();
             if(playersData!=null&&playersData.first()) {
                 Player onePlayer;
-                if(userName!=null&&userName.equals(playersData.getString(1))) ;
-                else {
+//                if() ;
+                if(!(userName!=null&&userName.equals(playersData.getString(1)))) {
                     onePlayer = new Player(playersData);
                     players.add(onePlayer);
                 }
@@ -215,11 +213,27 @@ public class Player {
 //        }
 //        return players;
 //    }
-    public boolean addScore(int points){
-        return isPlayer()&&isLogin()&& Db.updateScore(points, userName);
+    public void addScore(int points){
+        if (isPlayer() && isLogin()) {
+            Db.updateScore(points, userName);
+        }
+    }
+    public void subScore(int points){
+        if (isPlayer() && isLogin()) {
+            if(score>0  )
+                Db.subScore(points, userName);
+        }
     }
 
 //    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
-    public boolean leaveGame(){return isLogin()&&Db.leaveGame(userName);}
-    public boolean setInGame() {return isLogin()&&Db.setInGame(userName);}
+    public void leaveGame(){
+        if (isLogin()) {
+            Db.leaveGame(userName);
+        }
+    }
+    public void setInGame() {
+        if (isLogin()) {
+            Db.setInGame(userName);
+        }
+    }
 }

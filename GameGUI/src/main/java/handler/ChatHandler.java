@@ -3,8 +3,6 @@ package handler;
 import com.example.gamegui.Main;
 import com.example.gamegui.OnlineGameController;
 
-import static handler.ClientHandler.handleGamePlay;
-
 public class ChatHandler {
     public static void handleResponse(String[] responseParts) {
 //        System.out.println(" handleRequest() response-> " + responseParts[0]);

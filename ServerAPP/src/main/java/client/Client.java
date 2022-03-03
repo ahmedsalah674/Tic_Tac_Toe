@@ -17,10 +17,12 @@ public class Client extends Thread {
     public Client(User newUser) {
         this.ClientSocket = newUser.clientSocket;
         try {
-            dataInputStream = new DataInputStream(ClientSocket.getInputStream());
-            printStream = new PrintStream(ClientSocket.getOutputStream());
-            clientUser = newUser;
-            start();
+            if(this.ClientSocket.isConnected()){
+                dataInputStream = new DataInputStream(ClientSocket.getInputStream());
+                printStream = new PrintStream(ClientSocket.getOutputStream());
+                clientUser = newUser;
+                start();
+            }
 //            System.out.println("i'm here in Client constructor");
         } catch (IOException e) {
             System.out.println("inside Client constructor: " + e);

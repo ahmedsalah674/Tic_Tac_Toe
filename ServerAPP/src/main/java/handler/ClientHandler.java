@@ -114,7 +114,7 @@ public class ClientHandler {
 
     private static void handleInvite(String[] requestParts, Client copyClient) {
         // ahmed - 1
-        if(copyClient.clientUser!=null&&copyClient.clientUser.playerDate!=null);
+        if(copyClient.clientUser!=null&&copyClient.clientUser.playerDate!=null)
             copyClient.clientUser.playerDate.setInGame();
         Client result = Server.getUserByUserName(requestParts[1]);
         if (result != null&&result.clientUser.playerDate!=null) {
@@ -135,9 +135,10 @@ public class ClientHandler {
 
     private static void handleLogout(Client copyClient) {
 //        System.out.println("handleLogout handler function: " + requestParts[0]);
-        System.out.println("handleLogout:" + copyClient.clientUser.playerDate.logout());//in server logs
+//        System.out.println("handleLogout:" + copyClient.clientUser.playerDate.logout());//in server logs
+        copyClient.clientUser.playerDate.logout();
         if(!Server.clientVector.isEmpty()){
-            System.out.println("!Server.clientVector.isEmpty"); //logs
+//            System.out.println("!Server.clientVector.isEmpty"); //logs
             for (Client counter:Server.clientVector) {
                 ClientHandler.handleRequest(new String[]{"getPlayersRequest"}, counter);
             }
@@ -162,14 +163,20 @@ public class ClientHandler {
 
     private static void handleUpdateScoreRequest(String[] requestParts) {
 //        "handleUpdateScoreRequest:ahmed:10:false"
-//        "handleUpdateScoreRequest:ahmed:5:true"
+//        "handleUpdateScoreRequest:ahmed:15:true:salah"
 //        System.out.println("handleUpdateScoreRequest  request->"+requestParts[0]);
         Client result = Server.getUserByUserName(requestParts[1]);
+        Client result2=null;
+        if(requestParts.length>4)
+            result2 = Server.getUserByUserName(requestParts[4]);
         if(result!=null){
             result.clientUser.playerDate.addScore(Integer.parseInt(requestParts[2]));
 //            result.sendResponseMessage(, )
             if(requestParts[3].equals("true")) {
-                result.sendResponseMessage("updateScoreResponse", "Client");
+                if(result2!=null) {
+                    result2.clientUser.playerDate.subScore(5);
+                }
+                result.sendResponseMessage("updateScoreResponse:", "Client");
             }
         }
     }

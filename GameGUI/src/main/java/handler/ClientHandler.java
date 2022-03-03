@@ -27,14 +27,15 @@ public class ClientHandler {
         }
     }
     private static void handleUpdateScore(){
-        Platform.runLater(() -> {
-//            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("opponent surrendered!!");
-            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
-            alert.setResizable(false);
-            alert.showAndWait();
-        });//replace it with show alert
+        Main.changeSceneName("updateScore.fxml");
+//        Platform.runLater(() -> {
+////            System.out.println("in handleRemoveOtherPlayer() and runLater() and user is " + Main.playerUserName);
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//            alert.setTitle("opponent surrendered!!");
+//            alert.setHeaderText("congrats your opponent surrendered you win this game and win 5 points as bonus");
+//            alert.setResizable(false);
+//            alert.showAndWait();
+//        });//replace it with show alert
     }
 
     private static void showAlert(Alert.AlertType type, String title, String header) {
@@ -53,7 +54,7 @@ public class ClientHandler {
         if (responseParts.length >= 2 && responseParts[1].equals("true")) {
             Main.playerUserName = responseParts[2];
             Main.changeSceneName("ChooseGameGui.fxml");
-            System.out.println("logged in ");
+//            System.out.println("logged in ");
             Platform.runLater(() -> {Main.s.setTitle(responseParts[2]);});
         }
         else {

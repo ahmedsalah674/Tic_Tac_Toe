@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane fx:controller="com.example.gamegui.UpdateController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<!--   <children>-->
+      <ImageView fitHeight="180.0" fitWidth="280.0" layoutX="200.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+<!--         <image>-->
+            <Image url="@../Images/update.png" />
+<!--         </image>-->
+      </ImageView>
+      <Text fx:id="resultMessage" fill="#a41f1f" layoutX="60.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="Lucida Calligraphy Italic" size="22.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="backImage" fitHeight="50.0" onMouseClicked="#back" fitWidth="50.0" layoutX="270.0" layoutY="320.0" pickOnBounds="true" preserveRatio="true">
+         <Image url="@../Images/back.png" />
+      </ImageView>
+<!--   </children>-->
+</AnchorPane>
