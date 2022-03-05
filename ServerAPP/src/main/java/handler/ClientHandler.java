@@ -7,7 +7,7 @@ import server.Server;
 import java.io.IOException;
 import java.util.ArrayList;
 public class ClientHandler {
-//    private static Client usedClientForHandler;
+    //    private static Client usedClientForHandler;
     public static void handleRequest(String[] requestParts, Client copyClient) {
 //        usedClientForHandler = copyClient;
 //        System.out.println(" handleRequest() request-> " + request);
@@ -32,10 +32,11 @@ public class ClientHandler {
     }
 
     private static void handleLogin(String[] requestParts, Client copyClient) {
+        //loginRequest:ahmed:12345
 //        System.out.println("login handler function: " + requestParts[0]);
-            copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
-            boolean isLogin = copyClient.clientUser.playerDate.login();
-           String result = "loginResponse:" +isLogin+":"+requestParts[1];
+        copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
+        boolean isLogin = copyClient.clientUser.playerDate.login();
+        String result = "loginResponse:" +isLogin+":"+requestParts[1];
 //        }
         if(isLogin&&!Server.clientVector.isEmpty()){
             for (Client counter:Server.clientVector) {
@@ -55,11 +56,11 @@ public class ClientHandler {
         copyClient.clientUser= new User(copyClient.ClientSocket);
         copyClient.clientUser.setPlayer(requestParts[1], requestParts[2]);
         boolean signUpResult= copyClient.clientUser.playerDate.signUp();
-            String result = "signUpResponse:" +signUpResult+":"+requestParts[1];
+        String result = "signUpResponse:" +signUpResult+":"+requestParts[1];
 //            usedClientForHandler.sendResponseMessage(result);
         copyClient.sendResponseMessage(result,"Client");
-        if(signUpResult)
-            Main.changeSceneName("ServerGui.fxml");
+//        if(signUpResult)
+//            Main.changeSceneName("ServerGui.fxml");
     }
 
     private static void handleGetPlayers(String[] requestParts,Client copyClient) {
@@ -74,6 +75,7 @@ public class ClientHandler {
 
     private static void handleGetFriends(String[] requestParts, Client copyClient) {
 //        System.out.println("handleGetFriends handler function: " + requestParts[0]);
+        //getPlayersResponse:ahmed-2020-1:omar-200-1:youssef-2555-2
         String stringFriendsData = "getFriendsResponse:";
         if (copyClient != null && copyClient.clientUser != null && copyClient.clientUser.playerDate != null) {
             ArrayList<Player> friends = PlayersBOT(requestParts,copyClient);

@@ -25,19 +25,19 @@ public class Player {
         setPassword(playerPassword);
         getPlayerData();
     }
-//    Player(String playerName, String playerPassword, int playerStatus){
+    //    Player(String playerName, String playerPassword, int playerStatus){
 //        setUserName(playerName);
 //        setPassword(playerPassword);
 //        setStatus(playerStatus);
 //        getPlayerData();
 //    }
-//    Player(String playerName , String playerPassword, int playerStatus, int playerScore){
-//        setUserName(playerName);
-//        setPassword(playerPassword);
-//        setScore(playerScore);
-//        getPlayerData();
-//    }
-//    Player(Player copyPlayer){
+    Player(String playerName , String playerPassword, int playerStatus, int playerScore){
+        setUserName(playerName);
+        setPassword(playerPassword);
+        setScore(playerScore);
+        getPlayerData();
+    }
+    //    Player(Player copyPlayer){
 //        setUserName(copyPlayer.getUserName());
 //        setPassword(copyPlayer.getPassword());
 //        setStatus(copyPlayer.getStatus());
@@ -85,7 +85,7 @@ public class Player {
     public String getUserName(){
         return userName;
     }
-//    public String getPassword(){
+    //    public String getPassword(){
 //        return password;
 //    }
     public int getStatus(){
@@ -145,7 +145,7 @@ public class Player {
 //        return isPlayer() && isLogin() && friend.isPlayer() && !checkFriendShip(friendName)  && Db.addFriend(userName,friendName);
 //    }
 
-//    public boolean checkFriendShip(String friendName){
+    //    public boolean checkFriendShip(String friendName){
 //        Player friend = new Player(friendName);
 //        return isPlayer() && friend.isPlayer() && Db.checkFriendShip(userName , friendName);
 //    }
@@ -195,7 +195,7 @@ public class Player {
         return players;
     }
 
-//    public ArrayList<Player> getOnlinePlayers(){
+    //    public ArrayList<Player> getOnlinePlayers(){
 //        ArrayList<Player> players= new ArrayList<>();
 //        try{
 //            ResultSet playersData = Db.getOnlinePlayers(userName);
@@ -220,12 +220,12 @@ public class Player {
     }
     public void subScore(int points){
         if (isPlayer() && isLogin()) {
-            if(score>0  )
+            if(score>0)
                 Db.subScore(points, userName);
         }
     }
 
-//    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
+    //    public boolean inGame(){return isLogin()&&Db.inGame(userName);}
     public void leaveGame(){
         if (isLogin()) {
             Db.leaveGame(userName);

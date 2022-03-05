@@ -24,10 +24,10 @@ public class GameHandler {
         public String toString() {
             if(moves!=null)
                 return
-                    playerXUserName +
-                    ":"+playerOUserName +
-                    ":"+lastPlayer +
-                    ":"+moves;
+                        playerXUserName +
+                                ":"+playerOUserName +
+                                ":"+lastPlayer +
+                                ":"+moves;
             else
                 return id +
                         ":"+playerXUserName +
@@ -95,9 +95,9 @@ public class GameHandler {
     public static void handleResponse(String[] responseParts) {
 //        System.out.println("GameHandler-handleResponse() response-> " + responseParts[0]);
         switch (responseParts[0]) {
-            case "createGameRequest"   -> handleCreateGameRequest(responseParts);
+            case "createGameRequest"   -> handleCreateGameRequest();
             case "saveThisGameResponse"->handleSaveThisGameResponse(responseParts);
-            case "canselSaveResponse"  -> handleCanselSaveResponse(responseParts);
+            case "canselSaveResponse"  -> handleCanselSaveResponse();
             case "getGameResponse"     -> handleGetGameResponse(responseParts);
 //            case "removeGameResponse" -> handleRemoveGame(responseParts);
             case "loadGameResponse" -> handleLoadGameResponse(responseParts);
@@ -106,16 +106,16 @@ public class GameHandler {
     }
 
     private static void handleLoadGameResponse(String[] responseParts) {
-        Game savedGame=getSavedGame(responseParts);;
+        Game savedGame=getSavedGame(responseParts);
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Continue Game!!");
             alert.setHeaderText("you already have game saved");
             alert.setResizable(false);
-            Optional<ButtonType> result = alert.showAndWait();
+            alert.showAndWait();
             loadGame(savedGame);
         });
-            Main.sendMessage("removeGameRequest:"+savedGame.id,"Game");
+        Main.sendMessage("removeGameRequest:"+savedGame.id,"Game");
     }
 
     private static Game getSavedGame(String[] responseParts) {
@@ -125,7 +125,7 @@ public class GameHandler {
             playerShape='X';
         else
             playerShape='O';
-        OnlineGameController.setMyTurn(savedGame.lastPlayer.equals(Main.playerUserName));
+        OnlineGameController.setMyTurn(!savedGame.lastPlayer.equals(Main.playerUserName));
         OnlineGameController.setPlayerShape(playerShape);
         return savedGame;
     }
@@ -160,7 +160,7 @@ public class GameHandler {
         }
     }
 
-    private static void handleCanselSaveResponse(String[] responseParts) {
+    private static void handleCanselSaveResponse() {
         OnlineGameController.gameSaved=false;
         Platform.runLater(()->{
             Alert alert=new Alert(Alert.AlertType.INFORMATION);
@@ -194,7 +194,7 @@ public class GameHandler {
             lastPlayer=Main.playerUserName;
         return new Game(playerX,playerO,lastPlayer,OnlineGameController.board);
     }
-    private static void handleCreateGameRequest(String[] responseParts) {
+    private static void handleCreateGameRequest() {
         Platform.runLater(()->{
             Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm Save Game");

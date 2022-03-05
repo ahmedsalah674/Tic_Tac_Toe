@@ -17,7 +17,7 @@
       <Image fx:id="resultImage" url="@../Images/loser.png"/>
    </ImageView>
    <Text fx:id="resultMessage" fill="#a41f1f" layoutX="90.0" textAlignment="CENTER" layoutY="262.0" strokeType="OUTSIDE"
-         strokeWidth="0.0" text="You lose this Game go back to You Mother ">
+         strokeWidth="0.0" text="You lose this Game go back to Your Mother ">
       <font>
          <Font name="Lucida Calligraphy Italic" size="20.0"/>
       </font>

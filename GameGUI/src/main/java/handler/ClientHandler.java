@@ -50,12 +50,13 @@ public class ClientHandler {
     }
 
     private static void handleLogin(String[] responseParts) {
+        //loginResponse:true:ahmed
 //        System.out.println("login handler response function: " + responseParts[0]);
         if (responseParts.length >= 2 && responseParts[1].equals("true")) {
             Main.playerUserName = responseParts[2];
             Main.changeSceneName("ChooseGameGui.fxml");
 //            System.out.println("logged in ");
-            Platform.runLater(() -> {Main.s.setTitle(responseParts[2]);});
+            Platform.runLater(() -> Main.s.setTitle(responseParts[2]));
         }
         else {
             showAlert(Alert.AlertType.ERROR,"Login Error","Failed Login TryAgain");
@@ -71,7 +72,6 @@ public class ClientHandler {
         }
         else
             showAlert(Alert.AlertType.ERROR,"Sign up Error","Failed Signup Change This UserName And TryAgain");
-
     }
 
     private static void handleGetPlayers(String[] responseParts) {

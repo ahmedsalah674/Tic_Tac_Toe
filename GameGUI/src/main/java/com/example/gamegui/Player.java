@@ -2,13 +2,9 @@ package com.example.gamegui;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-
-import java.util.Optional;
 
 public class Player {
     private String userName;
@@ -73,34 +69,31 @@ public class Player {
         else
             this.invitePlayer.setStyle("-fx-background-color: green ;-fx-text-fill: white;");
 
-        this.invitePlayer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                if(!Main.haveInvite) {
-                    Main.haveInvite=true;
-                    Main.sendMessage("inviteRequest:" + invitePlayer.getId(), "Client");
-                    Main.otherPlayerUserName = invitePlayer.getId();
-                }else{
-                    Platform.runLater(() -> {
+        this.invitePlayer.addEventHandler(ActionEvent.ACTION, actionEvent -> {
+            if(!Main.haveInvite) {
+                Main.haveInvite=true;
+                Main.sendMessage("inviteRequest:" + invitePlayer.getId(), "Client");
+                Main.otherPlayerUserName = invitePlayer.getId();
+            }else{
+                Platform.runLater(() -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("You Have Invite");
                     alert.setHeaderText("You already Have Invite please wait");
                     alert.setResizable(false);
                     alert.showAndWait();
-                    });
-                }
-//                Main.changeSceneName("load.fxml");
+                });
             }
+//                Main.changeSceneName("load.fxml");
         });
     }
 
-    public void logout() {
-        Main.sendMessage("logoutRequest","Client");
-    }
+//    public void logout() {
+//        Main.sendMessage("logoutRequest","Client");
+//    }
 
-    public void login() {
-        Main.sendMessage("loginRequest:" + userName + ":" + password,"Client");
-    }
+//    public void login() {
+//        Main.sendMessage("loginRequest:" + userName + ":" + password,"Client");
+//    }
 //    public static void setTimeout(Runnable runnable, int delay){
 //        new Thread(() -> {
 //            try {

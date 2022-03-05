@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import server.Server;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
     public static boolean running;
@@ -20,10 +21,10 @@ public class Main extends Application {
         launch(args);
     }
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         Main.running=false;
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("ServerGui.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ServerGui.fxml")));
             Scene scene = new Scene(root, 601, 405);
             serverScene=primaryStage;
             serverScene.setTitle("TicTacToe Server");
@@ -40,7 +41,7 @@ public class Main extends Application {
             public void run() {
                 try {
 //                    System.err.println(sceneName);
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource(sceneName)),601, 405);
+                    Scene scene = new Scene(FXMLLoader.load(Objects.requireNonNull(getClass().getResource(sceneName))),601, 405);
                     serverScene.setScene(scene);
                 } catch (IOException e) {
                     System.out.println("this scene not found");

@@ -11,10 +11,10 @@ import java.util.Vector;
 
 public class Server extends Thread {
     public static ServerSocket serverSocket;
-//    public static boolean running;
+    //    public static boolean running;
     public static Vector<Client> clientVector = new Vector<>();
     public Server() {
-        try {
+        try {//127.0.0.1
             serverSocket = new ServerSocket(5005);
             start();
             Main.running=true;
@@ -32,23 +32,23 @@ public class Server extends Thread {
     }
     @Override
     public void run() {
-            while (!serverSocket.isClosed()) {
-                try {
+        while (!serverSocket.isClosed()) {
+            try {
 //                System.out.println("i'm still here");
 //                if(){
-                    Socket newClientSocket = serverSocket.accept();
-                    User newUser = new User(newClientSocket);
-                    Client newClient = new Client(newUser);
-                    clientVector.add(newClient);
+                Socket newClientSocket = serverSocket.accept();
+                User newUser = new User(newClientSocket);
+                Client newClient = new Client(newUser);
+                clientVector.add(newClient);
 //                }
             }catch (Exception e) {
-                    System.out.println("inside run() Server function " + e);
-                }
+                System.out.println("inside run() Server function " + e);
             }
+        }
     }
     public static void sendMessageForAll(String message,String messageType){
         for (Client clientCounter:clientVector) {
-                RequestHandler.handleRequest(messageType+":"+message,clientCounter);
+            RequestHandler.handleRequest(messageType+":"+message,clientCounter);
         }
     }
 }
